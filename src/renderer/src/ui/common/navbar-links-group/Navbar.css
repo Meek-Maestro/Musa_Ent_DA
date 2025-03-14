@@ -1,0 +1,45 @@
+.control {
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  color: var(--mantine-color-gray-2);
+  font-size: var(--mantine-font-size-md);
+  @mixin hover {
+    border-left: rem(4px) solid var(--mantine-color-green-6);
+    color: var(--mantine-color-gray-3);
+  }
+}
+
+.active{
+  background-color: #1AA0FF;
+  color:white;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.sectionTitle{
+  color: white;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.link {
+  font-weight: 500;
+  display: block;
+  text-decoration: none;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  padding-left: var(--mantine-spacing-md);
+  margin-left: var(--mantine-spacing-xl);
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-gray-4);
+  border-left: 1px solid light-dark(var(--mantine-color-gray-8), var(--mantine-color-dark-4));
+
+  @mixin hover {
+    color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-0));
+  }
+}
+
+.chevron {
+  transition: transform 200ms ease;
+}

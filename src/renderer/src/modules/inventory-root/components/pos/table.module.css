@@ -1,0 +1,16 @@
+.rowSpacing {
+    height: 30px; 
+  }
+  
+  .cellSpacing {
+    /* padding: 1px 1px; Add space inside cells */
+  }
+  thead tr {
+    border-bottom: 3px solid #000; /* Darker border for headers */
+  }
+
+  .table{
+    color: black;
+    max-height: min-content;
+    overflow: auto;
+  }

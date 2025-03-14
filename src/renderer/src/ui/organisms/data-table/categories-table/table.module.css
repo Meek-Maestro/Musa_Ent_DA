@@ -1,0 +1,34 @@
+/* table.module.css */
+.table {
+  width: 100%;
+}
+
+.rowSpacing {
+  height: 30px;
+  flex: 1;
+}
+
+.cellSpacing {
+  /* padding: 1px 1px; Add space inside cells */
+}
+
+thead tr {
+  border-bottom: 3px solid #000/* table.module.css */
+}
+.table {
+  width: 100%;
+}
+
+
+.rowSpacing {
+  height: 30px;
+  flex: 1;
+}
+
+.cellSpacing {
+  /* padding: 1px 1px; Add space inside cells */
+}
+
+thead tr {
+  border-bottom: 3px solid #000
+}

@@ -1,0 +1,7 @@
+.input {
+    &:focus-within {
+        border: 1px solid var(--mantine-primary-color-filled);
+        border-radius: 5px;
+    };
+  }
+  

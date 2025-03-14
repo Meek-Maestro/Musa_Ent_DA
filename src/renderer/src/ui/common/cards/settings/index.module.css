@@ -1,0 +1,10 @@
+.card:hover{
+    background-color: #158EF5;
+    cursor: pointer;
+    color: white;
+}
+
+.selectedCard{
+    background-color: #158EF5;
+    color: white;
+}

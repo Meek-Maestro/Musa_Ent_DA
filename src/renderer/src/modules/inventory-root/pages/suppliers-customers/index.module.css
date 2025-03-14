@@ -1,0 +1,22 @@
+
+.searchInput{
+    &:focus-within {
+        border: 5px solid var(--mantine-primary-color-filled);
+    }
+}
+.deleteBtn{
+background-color: #FF0000;
+}
+.editBtn{
+background-color: #CACD00;
+}
+.addBtn{
+background-color: #36CA00;
+}
+.printBtn{
+    background-color: #0048D0;
+
+}
+.exportBtn{
+    background-color: #36CA00;
+}

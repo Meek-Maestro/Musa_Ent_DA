@@ -128,7 +128,7 @@ const SignUpPage = observer(() => {
           </Button>
           <Text c={`white`} fw={700} size="md">
             Already have an account?{" "}
-            <Link style={{ color: "white" }} to="/login">
+            <Link style={{ color: "white" }} to="/">
               Sign In
             </Link>
           </Text>

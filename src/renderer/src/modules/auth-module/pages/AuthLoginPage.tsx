@@ -1,5 +1,4 @@
 import { Box, SimpleGrid, Stack, TextInput, Image, Text, Title, PasswordInput, Button } from "@mantine/core";
-import { SiLibreofficewriter } from "react-icons/si";
 import { MdEmail, MdLocationCity, MdOutlinePassword, MdPassword, MdVisibility, MdVisibilityOff, MdWifiPassword } from "react-icons/md"
 import { defaultColors } from "../../../ui/constants/constants";
 import { observer } from "mobx-react";
@@ -7,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../../hooks/security/UseAuth";
 import { FaUser } from "react-icons/fa6";
 import { loginbg } from "../../../assets";
+import { authManager } from "@renderer/store/auth";
 
 
 

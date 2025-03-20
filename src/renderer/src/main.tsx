@@ -1,4 +1,3 @@
-
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import AppRoot from "./app/index"
@@ -14,7 +13,7 @@ import App from './modules/print';
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <AppRoot/>
-  </React.StrictMode>
+    <React.StrictMode>
+        <AppRoot />
+    </React.StrictMode>
 )

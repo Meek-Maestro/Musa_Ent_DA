@@ -14,7 +14,7 @@ export const InventoryPaths: LinksGroupProps[] = [
                 link: "/", 
                 icon: MdDashboard, 
                 // links: [
-                //     { label: "Reports", link: "/dashboard/reports" }
+                //     { label: "Reports", link: "/dashboard/reports" } 
                 // ] 
             },
             { label: "Stores", link: "/store", icon: MdStore }
@@ -36,8 +36,6 @@ export const InventoryPaths: LinksGroupProps[] = [
         items:[
             { label: "Settings", link: "/settings", icon: MdSettings },
             { label: "Help", link: "/", icon: MdHelp },
-           
         ]
     }
-   
 ];

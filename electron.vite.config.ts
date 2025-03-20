@@ -18,7 +18,7 @@ export default defineConfig({
     plugins: [react()],
     css: {
       modules: {
-        scopeBehaviour: 'local', // Ensures CSS classes are scoped
+        scopeBehaviour: 'local', 
       },
     },
   },

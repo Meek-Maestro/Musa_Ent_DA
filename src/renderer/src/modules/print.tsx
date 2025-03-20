@@ -1,12 +1,5 @@
 import { useState } from 'react';
 
-declare global {
-  interface Window {
-    api: {
-      invoke: (channel: string, data: any) => Promise<{ success: boolean; error?: string }>;
-    };
-  }
-}
 
 const App = () => {
   const [item, setItem] = useState('');

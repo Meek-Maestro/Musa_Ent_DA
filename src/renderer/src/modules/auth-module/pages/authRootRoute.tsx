@@ -1,11 +1,11 @@
 import React, { lazy } from "react";
-import { Navigate, Route, } from "react-router-dom";
+import { Route, } from "react-router-dom";
 const LazyLogin = lazy(() => import("./AuthLoginPage"))
 const LazySignUp = lazy(()=> import("./AuthSignUpPage"))
 
 export default (
     <React.Fragment>
-        <Route path="/login"
+        <Route path="/"
             element={
                 <LazyLogin />
             } />
@@ -13,12 +13,6 @@ export default (
             element={
                 <LazySignUp />
             } />
-
-            <Route path="*"
-            element={<Navigate to={`/login`}/>}
-            />
-            <Route path="/"
-            element={<Navigate to={`/login`}/>}
-            />
+            
     </React.Fragment>
 )

@@ -1,5 +1,5 @@
 import { Box, LoadingOverlay } from '@mantine/core';
-import { BrowserRouter, Routes, Route, Navigate, HashRouter, MemoryRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, HashRouter, MemoryRouter, useNavigate } from 'react-router-dom';
 import { createElement, Suspense, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { InverntoryAppShell } from '../modules/inventory-root/components/InventoryAppShell';
@@ -28,11 +28,47 @@ import { showNotification } from '@mantine/notifications';
 import { TiTickOutline } from 'react-icons/ti';
 import { MdClose } from 'react-icons/md';
 import EditCategory from '@renderer/ui/common/modals/edit-category/EditCategory';
+import { authManager } from '@renderer/store/auth';
 // import { ModalsProvider } from '@mantine/modals';
 
 // const modals = {};
 
 export const AppRoutes = observer(() => {
+ 
+
+  useEffect(() => {
+    const loginTimestampKey = 'loginTimestamp';
+    const logoutAfterMs = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+    // Check if the user is logged in and the session is still valid
+    const checkSession = () => {
+      const loginTimestamp = localStorage.getItem(loginTimestampKey);
+      if (loginTimestamp) {
+        const elapsedTime = Date.now() - parseInt(loginTimestamp, 10);
+        if (elapsedTime > logoutAfterMs) {
+          // Log the user out
+          localStorage.removeItem(loginTimestampKey);
+          // Perform logout logic here
+          console.log('Session expired. Logging out...');
+          authManager.logout()
+        }
+      }
+    };
+
+    // Set the login timestamp if not already set
+    if (!localStorage.getItem(loginTimestampKey)) {
+      localStorage.setItem(loginTimestampKey, Date.now().toString());
+    }
+
+    // Check session on component mount
+    checkSession();
+
+    // Optionally, set an interval to check periodically
+    const intervalId = setInterval(checkSession, 60 * 1000); // Check every minute
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, []);
+
    
   useEffect(() => {
     async function load(){
@@ -110,7 +146,7 @@ export const AppRoutes = observer(() => {
 
   return (
     <Box>
-      <BrowserRouter basename="/">
+      <HashRouter basename='/'>
         <ModalsProvider modals={modals}>
           <Suspense fallback={<LoadingOverlay visible></LoadingOverlay>}>
             <Routes>
@@ -120,7 +156,7 @@ export const AppRoutes = observer(() => {
             </Routes>
           </Suspense>
         </ModalsProvider>
-      </BrowserRouter>
+      </HashRouter>
     </Box>
   );
 });

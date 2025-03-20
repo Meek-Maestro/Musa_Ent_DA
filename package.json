@@ -4,7 +4,7 @@
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "homepage":".",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
@@ -13,72 +13,76 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
+    "build": " electron-vite build",
     "postinstall": "electron-builder install-app-deps",
-    "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "electron-vite build && electron-builder --win",
+    "build:unpack": "electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win --publish never",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux"
   },
+  "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^4.0.0",
+    "@mantine/carousel": "^7.17.0",
+    "@mantine/charts": "^7.17.0",
+    "@mantine/code-highlight": "^7.17.0",
+    "@mantine/core": "^7.17.0",
+    "@mantine/dates": "^7.17.0",
+    "@mantine/dropzone": "^7.17.0",
+    "@mantine/form": "^7.17.0",
+    "@mantine/hooks": "^7.17.0",
+    "@mantine/modals": "^7.17.0",
+    "@mantine/notifications": "^7.17.0",
+    "@mantine/nprogress": "^7.17.0",
+    "@mantine/spotlight": "^7.17.0",
+    "@mantine/tiptap": "^7.17.0",
+    "@tiptap/extension-link": "^2.11.5",
+    "@tiptap/pm": "^2.11.5",
+    "@tiptap/react": "^2.11.5",
+    "@tiptap/starter-kit": "^2.11.5",
+    "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "dexie": "^4.0.11",
+    "electron-pos-printer": "^1.3.6",
+    "electron-updater": "^6.3.9",
+    "embla-carousel-react": "^7.1.0",
+    "escpos": "^3.0.0-alpha.6",
+    "escpos-network": "^3.0.0-alpha.5",
+    "escpos-usb": "^3.0.0-alpha.4",
+    "mobx": "^6.13.6",
+    "mobx-react": "^9.2.0",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.2.0",
+    "recharts": "^2.15.1",
+    "usb": "^1.9.2"
+  },
+  "devDependencies": {
+    "@electron-toolkit/eslint-config-prettier": "^3.0.0",
+    "@electron-toolkit/eslint-config-ts": "^3.0.0",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/node": "^22.13.4",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "css-loader": "^7.1.2",
+    "electron": "^34.2.0",
+    "electron-builder": "^24.6.0",
+    "electron-vite": "^3.0.0",
+    "eslint": "^9.20.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "prettier": "^3.5.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "style-loader": "^4.0.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  },
   "build": {
-    "appId": "com.example.myapp",
-    "productName": "MyApp",
-    "artifactName": "${productName}-${version}.${ext}",
-    "copyright": "Copyright © 2024",
     "asar": true,
-    "directories": {
-      "output": "dist",
-      "buildResources": "assets"
-    },
-    "files": [
-      "out/main/**/*",
-      "out/renderer/**/*",
-      "package.json"
-    ],
-    "extraMetadata": {
-      "main": "out/main/index.js"
-    },
     "win": {
-      "target": [
-        "nsis",
-        "portable"
-      ],
-      "icon": "assets/icon.ico",
-      "publisherName": "Your Company",
-      "verifyUpdateCodeSignature": false
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": true,
-      "allowToChangeInstallationDirectory": true,
-      "deleteAppDataOnUninstall": true
-    },
-    "mac": {
-      "target": [
-        "dmg",
-        "zip"
-      ],
-      "icon": "assets/icon.icns",
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false,
-      "entitlements": "assets/entitlements.mac.plist",
-      "entitlementsInherit": "assets/entitlements.mac.plist"
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb",
-        "rpm"
-      ],
-      "icon": "assets/",
-      "category": "Utility"
-    },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "your-github-username",
-        "repo": "your-repo-name",
-        "releaseType": "release"
-      }
-    ]
+      "publisherName": "Musa Yaro Ent"
+    }
   }
 }

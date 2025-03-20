@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx"
 import { authRepository } from "./dexi/auth.repository"
 
 class AuthManager {
-    status: 'initial' | 'authenticated' | 'loaded' = 'initial'
+    status: 'initial' | 'authenticated' | 'loaded' = 'loaded'
     profile: any = {}
 
     constructor() {
@@ -25,16 +25,16 @@ class AuthManager {
             })
         } catch (error) {
             runInAction(() => {
-                authManager.status = "loaded"
+                this.status = "loaded"
             })
             throw error
         }
     }
     async init() {
         let payload = await authRepository.getAuthenticatedUser()
-        if (payload === undefined) {
+        if (payload == undefined) {
             runInAction(() => {
-                authManager.status = "loaded"
+                this.status = "loaded"
             })
         } else {
             this.loadAuthenticatedProfile()
@@ -44,8 +44,8 @@ class AuthManager {
         authRepository.getAuthenticatedUser()
         await authRepository.clear()
         runInAction(()=>{
-            authManager.status = "loaded"
-            authManager.profile = {}
+            this.status = "loaded"
+            this.profile = {}
         })
     }
 }

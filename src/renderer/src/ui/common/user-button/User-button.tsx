@@ -12,13 +12,15 @@ import { SupplierStore } from '../../../store/admin/suppliers';
 import { userStore } from '../../../store/admin/users';
 import { showNotification } from '@mantine/notifications';
 import { purchaseStore } from '../../../store/admin/purchase';
+import { useNavigate } from 'react-router-dom';
 
 export const UserButton = observer(function UserButton() {
   const { username, role } = authManager.profile;
-
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     authManager.logout();
+    navigate("/")
   };
 
   const handleReloadResources = () => {

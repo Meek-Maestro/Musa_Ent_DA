@@ -1,5 +1,3 @@
-import LoginPage from "../modules/auth-module/pages/AuthLoginPage";
-import SignUpPage from "../modules/auth-module/pages/AuthSignUpPage";
 import { LoadingOverlay, MantineProvider } from "@mantine/core";
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
@@ -13,6 +11,7 @@ import { authManager } from "../store/auth";
 export default observer(function Main() {
     useEffect(() => {
         authManager.init()
+        console.log(authManager.status)
     }, [])
     // authManager.logout()
     return (
@@ -29,7 +28,6 @@ const App = observer(() => {
     if (authManager.status == "authenticated") {
         return <AppRoutes />
     }
-
     if (authManager.status == "initial") {
         return <LoadingOverlay visible></LoadingOverlay>
     }

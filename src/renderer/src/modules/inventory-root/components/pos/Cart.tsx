@@ -12,11 +12,11 @@ interface cart {
         total: number
     }[]
     delete_action: (i: any) => void
-    edit_action: (i: any) => void
+    // edit_action: (i: any) => void
     clear_cart: () => void
 }
 
-export default observer(function Cart({ cartdetails, delete_action, edit_action, clear_cart }: cart) {
+export default observer(function Cart({ cartdetails, delete_action, clear_cart }: cart) {
     const [selectedItem, setSelectedItem] = useState<number>()
     return (
         <Box bg={`white`} h={`50vh`} p={`md`} style={{ borderRadius: "20px" }} pos={`relative`}>
@@ -29,11 +29,11 @@ export default observer(function Cart({ cartdetails, delete_action, edit_action,
                         </ActionIcon>
                     </Tooltip>
 
-                    <Tooltip label="Edit item">
+                    {/* <Tooltip label="Edit item">
                         <ActionIcon variant="subtle">
                             <MdEdit size={30} />
                         </ActionIcon>
-                    </Tooltip>
+                    </Tooltip> */}
 
                     <Tooltip title="Delete Item" label="Delete item">
                         <ActionIcon variant="subtle" c={`red`} onClick={() => delete_action(selectedItem)}>

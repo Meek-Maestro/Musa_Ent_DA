@@ -76,7 +76,7 @@ const POS = observer(() => {
                         <Stack>
                             <Group>
                                 <Button radius="lg" w="200px" h={`25px`} onClick={() => setOpenModal(!openModal)}>
-                                    Product Details
+                                   Select Product
                                 </Button>
                                 <Button radius="lg" w="200px" h={`25px`} onClick={() => setOpenModal(!openModal)}>
                                     Select Store

@@ -1,36 +1,53 @@
-import { products } from "@renderer/store/admin/products";
+import { storeSummary } from "@renderer/store/summary";
+import { runInAction } from "mobx";
 import { useEffect, useState } from "react";
 
 export function useSummary() {
-    const [products_, setProducts] = useState<any[]>([])
-    console.log(products)
-
+    const [summary, setsummary] = useState<any>({})
+    const [loading, setloading] = useState(false)
+    const [storeName, setStoreName] = useState("General Summary")
     useEffect(() => {
-        setProducts(products.products)
-    }, [products.products])
+        setsummary(storeSummary.summary || {})
+        runInAction(()=>{
+            storeName === "General Summary" && storeSummary.loadSummary()
+        })
+    }, [storeSummary.summary, storeName])
 
     function productsTotal() {
-        return products_.length
+        return summary?.total_products?.total
     }
     function StocksTotal() {
-        return products_.reduce((arr, item) => arr + item.quantity, 0)
+        return summary?.total_stock?.total
     }
     function lowStocks() {
-        return products_.filter((p) => p.quantity <= p.quantity_alert).length
+        return summary?.low_stock?.total
     }
     function outOfStock() {
-        return products_.filter((p) => p.quantity === 0).length
+        return summary?.out_of_stock?.total
+    }
+    const handleSelectStoreSummary = async (id: number, storeName: string) => {
+        setloading(true)
+        try {
+            await storeSummary.loadSummaryById(id)
+        } catch (error) {
+            setloading(false)
+        } finally {
+            setloading(false)
+            setStoreName(storeName)
+        }
+    }
+    function categories() {
+
     }
 
-    console.log("Products Total: ", productsTotal())
-    console.log("Stocks Total: ", StocksTotal())
-    console.log("Low Stocks", lowStocks())
-    console.log("Out of Stocks", outOfStock())
     return {
         TotalProducts: productsTotal(),
         TotalStock: StocksTotal(),
         LowStocks: lowStocks(),
-        OutOfStocks: outOfStock()
+        OutOfStocks: outOfStock(),
+        loading,
+        storeName,
+        handleSelectStoreSummary
     }
 
 }

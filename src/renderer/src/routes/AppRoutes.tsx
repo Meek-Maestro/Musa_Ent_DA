@@ -29,6 +29,7 @@ import { TiTickOutline } from 'react-icons/ti';
 import { MdClose } from 'react-icons/md';
 import EditCategory from '@renderer/ui/common/modals/edit-category/EditCategory';
 import { authManager } from '@renderer/store/auth';
+import { storeSummary } from '@renderer/store/summary';
 // import { ModalsProvider } from '@mantine/modals';
 
 // const modals = {};
@@ -93,7 +94,8 @@ export const AppRoutes = observer(() => {
         ProductStore.loadStockReports(),
         products.loadProducts(),
         categoriesStore.loadCategories(),
-        purchaseStore.loadPurchases()
+        purchaseStore.loadPurchases(),
+        storeSummary.loadSummary()
       ])
         .then(() => showNotification({
           title: "Musa Enterprise",

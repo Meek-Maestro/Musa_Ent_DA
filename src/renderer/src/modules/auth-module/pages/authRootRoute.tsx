@@ -13,6 +13,6 @@ export default (
             element={
                 <LazySignUp />
             } />
-            
+            <Route path="*" element={<LazyLogin/>}/>
     </React.Fragment>
 )

@@ -1,6 +1,8 @@
 import { useForm } from "@mantine/form"
 import { api } from "@renderer/api/api";
+import RecentSales from "@renderer/modules/inventory-root/components/pos/RecentSales";
 import { authManager } from "@renderer/store/auth";
+import { recentSalesSummary } from "@renderer/store/recent_sales";
 import { useState } from "react";
 
 interface IProduct {
@@ -35,6 +37,7 @@ export function useInvoice() {
                 }
             })
             setSubmiting(false)
+            await recentSalesSummary.loadRecentSales()
             return true
         } catch (error) {
             console.log(error)

@@ -30,6 +30,7 @@ import { MdClose } from 'react-icons/md';
 import EditCategory from '@renderer/ui/common/modals/edit-category/EditCategory';
 import { authManager } from '@renderer/store/auth';
 import { storeSummary } from '@renderer/store/summary';
+import { recentSalesSummary } from '@renderer/store/recent_sales';
 // import { ModalsProvider } from '@mantine/modals';
 
 // const modals = {};
@@ -95,7 +96,8 @@ export const AppRoutes = observer(() => {
         products.loadProducts(),
         categoriesStore.loadCategories(),
         purchaseStore.loadPurchases(),
-        storeSummary.loadSummary()
+        storeSummary.loadSummary(),
+        recentSalesSummary.loadRecentSales()
       ])
         .then(() => showNotification({
           title: "Musa Enterprise",

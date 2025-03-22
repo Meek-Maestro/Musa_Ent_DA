@@ -6,15 +6,20 @@ import { useNavigate } from "react-router-dom"
 import StatsCard from "@renderer/ui/common/cards/dashboard/StatsCards"
 import { useSummary } from "@renderer/hooks/stats/useInventorySummary"
 import { ProductStore } from "@renderer/store/admin/stores"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { recentSalesSummary } from "@renderer/store/recent_sales"
+import RecentSalesTable from "@renderer/ui/organisms/data-table/recent-sales/RecentSalesTable"
 
 
 const DashBoard = () => {
     const theme = useMantineTheme();
-    const [selectedStore, setSelectedStore] = useState<number | null>(null); // Track selected store ID
+    const [selectedStore, setSelectedStore] = useState<number | null>(null);
+   
 
     const { TotalProducts, TotalStock, LowStocks, OutOfStocks, loading, storeName, handleSelectStoreSummary } = useSummary();
     const navigate = useNavigate();
+
+  
 
     const miniStoreCards = ProductStore.stores.map((data, index) => (
         <UnstyledButton
@@ -62,8 +67,6 @@ const DashBoard = () => {
                         // Icon={MdOutlineStoreMallDirectory}
                         />
                     </Grid.Col>
-                </Grid>
-                <Grid>
                     <Grid.Col span={{ md: 4 }}>
                         <StatsCard.StatsCardVert
                             value={LowStocks}
@@ -76,7 +79,6 @@ const DashBoard = () => {
                             value={OutOfStocks}
                             label="Out of Stock"
                         // Icon={MdOutlineStoreMallDirectory}+
-
                         />
                     </Grid.Col>
                 </Grid>
@@ -85,10 +87,14 @@ const DashBoard = () => {
                     <Paper h={`50vh`} p={`sm`}>
                         <Group justify="space-between">
                             <Text size="lg" c={`dimmed`}>Sales</Text>
-                            <Button size="lg" color={defaultColors.darkBlue} onClick={() => navigate("/pos")}>
+                            <Button size="md" color={defaultColors.darkBlue} onClick={() => navigate("/pos")}>
                                 POS
                             </Button>
                         </Group>
+                        <Text c={`dimmed`} size="sm" mt={`lg`}>Recent Sales</Text>
+                        <RecentSalesTable onselect={function (data: any): void {
+                                throw new Error("Function not implemented.")
+                            } }/>
                     </Paper>
                     <Paper h={`50vh`} p={`sm`}>
                         <Text size="lg" c={`dimmed`}>Product By Category</Text>

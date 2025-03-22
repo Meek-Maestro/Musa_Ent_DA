@@ -23,7 +23,7 @@ function StatsCardVert({
 }) {
   const theme = useMantineTheme();
   return (
-    <Paper shadow="sm">
+    <Paper shadow="sm" py={`sm`}>
       <Box p={'md'}>
         {/* <Icon color="light" size={32} /> */}
         <Text size="sm">{label}</Text>

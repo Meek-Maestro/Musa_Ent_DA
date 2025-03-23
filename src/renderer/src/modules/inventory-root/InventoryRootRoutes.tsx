@@ -44,10 +44,10 @@ export default (
         <Route path="/edit-purchase/:id" element={<LazyEditPurchase />} />
         <Route path="/damaged-goods" element={<LazyDamagedProducts />} />
         <Route path="/accounting" element={<LazyAccounting />} />
-        <Route path="/expenses" element={<LazyExpenses />} />
+        <Route path="/purchase" element={<LazyExpenses />} />
         <Route path="/purchases" element={<LazyPurchases />} />
         <Route path="/reports" element={<LazyReports />} />
-        <Route path="/payments" element={<LazyPayments />} />
+        <Route path="/expenses" element={<LazyPayments />} />
         <Route path="*" element={<Navigate to={`/`} />} />
     </React.Fragment>
 )

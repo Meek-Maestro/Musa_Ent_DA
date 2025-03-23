@@ -34,7 +34,7 @@ export function useUsers() {
             title: <Text size="xl" fw={700}>Add New User</Text>,
             fullScreen: false,
             centered: true,
-            size: "lg",
+            size: "xl",
             padding: "md",
             innerProps: {
             }

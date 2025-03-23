@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import AppPageWrapper from "../../../../ui/common/AppPageWrapper";
-import { ActionIcon, Box, Button, Divider, Group, Input, Paper, Title } from "@mantine/core";
+import { ActionIcon, Box, Button, Divider, Group, Input, Modal, Paper, Title, Text } from "@mantine/core";
 import { UserButton } from "../../../../ui/common/user-button/User-button";
 import StatsCard from "../../../../ui/common/cards/store/StoreStatsCard";
 import { defaultColors } from "../../../../ui/constants/constants";
@@ -12,16 +12,26 @@ import StoreProducts from "../../../../ui/organisms/data-table/store-table/Store
 import { useState } from "react";
 import { ProductStore } from "../../../../store/admin/stores";
 import { products } from "../../../../store/admin/products";
+import TransferProducts from "@renderer/ui/common/modals/transfer-products/TransferProducts";
 
 const Stores = observer(() => {
     const [filterText, setFilterText] = useState("");
     const { startAddOperation } = useStore()
     const [selectedStore, setSelectedStore] = useState(ProductStore.stores[0]?.name)
+    const [selectedProducts, setSelectedProducts] = useState<any[]>([])
+    const [openModal, setOpenModal] = useState(false)
+    console.log(selectedProducts)
 
     const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilterText(event.target.value);
     };
-
+    const handleOpenTransferModal = () => {
+        if (selectedProducts.length === 0) return alert("Select a product to transfer")
+        setOpenModal(!openModal)
+    }
+    const handleUncheckProduct = (index: number) => {
+        setSelectedProducts(selectedProducts.filter((_, i) => i !== index))
+    }
     return (
         <AppPageWrapper title="Stores" right={<UserButton />}>
             <Box>
@@ -45,13 +55,22 @@ const Stores = observer(() => {
                         />
                         <Button.Group style={{ gap: 8 }}>
                             <Button bg={defaultColors.lightGreen} onClick={startAddOperation}>New Store</Button>
-                            <Button>Transfer</Button>
+                            <Button onClick={handleOpenTransferModal}>Transfer</Button>
                         </Button.Group>
                     </Group>
                     <Divider />
-                    <StoreProducts storeName={selectedStore} filterText={filterText} />
+                    <StoreProducts storeName={selectedStore} filterText={filterText} select={setSelectedProducts} />
                 </Paper>
             </Box>
+            <Modal centered title={<Text fw={700} size="xl">
+                Transfer {selectedProducts.length > 1 ? `${selectedProducts.length} Products` : `${selectedProducts.length} Product`}
+            </Text>} size={`60%`} opened={openModal} onClose={() => setOpenModal(false)}>
+                <TransferProducts
+                    selectedProducts={selectedProducts}
+                    deleteProduct={handleUncheckProduct}
+                    closeModal={()=> setOpenModal(false)}
+                />
+            </Modal>
         </AppPageWrapper>
     )
 })

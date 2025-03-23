@@ -40,7 +40,7 @@ const StatsCard = observer(({ onselect }: props) => {
     const store = ProductStore.stores.find((s: any) => s.name === data.store_name);
     console.log(store);
     if (store) {
-      confirmDelete(async () => await deleteStore(store.id), "", "");
+      confirmDelete(async () => await deleteStore(store.id), "Confirm Delete", "Are you sure you want to delete this store?");
     }
   };
 

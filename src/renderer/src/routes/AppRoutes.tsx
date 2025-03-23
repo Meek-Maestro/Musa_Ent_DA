@@ -31,12 +31,13 @@ import EditCategory from '@renderer/ui/common/modals/edit-category/EditCategory'
 import { authManager } from '@renderer/store/auth';
 import { storeSummary } from '@renderer/store/summary';
 import { recentSalesSummary } from '@renderer/store/recent_sales';
+import TransferProducts from '@renderer/ui/common/modals/transfer-products/TransferProducts';
 // import { ModalsProvider } from '@mantine/modals';
 
 // const modals = {};
 
 export const AppRoutes = observer(() => {
- 
+
 
   useEffect(() => {
     const loginTimestampKey = 'loginTimestamp';
@@ -71,9 +72,9 @@ export const AppRoutes = observer(() => {
     return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
 
-   
+
   useEffect(() => {
-    async function load(){
+    async function load() {
       showNotification({
         title: "Musa Enterprise",
         message: "Loading Resources in the background",
@@ -86,7 +87,7 @@ export const AppRoutes = observer(() => {
           title: { color: "#276749", fontWeight: 600 },
         }
       });
-    
+
       await Promise.all([
         userStore.loadusers(),
         customerStore.loadCustomers(),
@@ -129,7 +130,7 @@ export const AppRoutes = observer(() => {
     }
     load()
   }, []);
-  
+
 
   const modals = {
     render_addProduct: AddProductModal,
@@ -144,7 +145,8 @@ export const AppRoutes = observer(() => {
     render_addCategory: AddCategories,
     render_editStore: (props: any) => <EditStoreModal {...props} />,
     render_addPurchase: AddPurchase,
-    render_editCategory: (props:any)=> <EditCategory {...props}/>
+    render_editCategory: (props: any) => <EditCategory {...props} />,
+   
   }
   // authManager.logout()
 

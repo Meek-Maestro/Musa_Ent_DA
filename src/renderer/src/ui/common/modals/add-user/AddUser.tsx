@@ -1,4 +1,4 @@
-import { Box, Button, Input, Select, SimpleGrid, Stack, TextInput } from "@mantine/core";
+import { Box, Button, Group, Input, Select, SimpleGrid, Stack, TextInput } from "@mantine/core";
 import { observer } from "mobx-react";
 import { useUsers } from "../../../../hooks/by-modules/use.Users";
 
@@ -11,31 +11,24 @@ const AddUser = observer(() => {
             }
         })}>
             <Box>
-                <SimpleGrid cols={1}>
-                    <Stack>
-                        <label >Username</label>
-                        <Input styles={{
+                    <Group grow>
+                        <TextInput label="Username" styles={{
                             input: {
                                 height: "40px"
                             }
                         }} variant="filled" {...user_form.getInputProps("username")} />
-                    </Stack>
-                    <Stack>
-                    <label >Role</label>
-                        <Select styles={{
+                        <TextInput label="Password" styles={{
+                            input: {
+                                height: "40px"
+                            }
+                        }} variant="filled" {...user_form.getInputProps("password")} />
+                        <Select label="Role" styles={{
                             input: {
                                 height: "40px"
                             }
                         }} data={["ADMIN", "SALESPERSON", "CASHIER"]} variant="filled" {...user_form.getInputProps("role")} />
-
-                        <label >Password</label>
-                        <Input styles={{
-                            input: {
-                                height: "40px"
-                            }
-                        }} variant="filled" {...user_form.getInputProps("password")}/>
-                    </Stack>
-                </SimpleGrid>
+                    </Group>
+                
                 <Button loading={submiting} type="submit" fullWidth h={`40`} mt={`md`}>Add</Button>
             </Box>
         </form>

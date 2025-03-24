@@ -1,0 +1,34 @@
+.rowSpacing {
+    height: 30px; 
+    
+  }
+  
+  .cellSpacing {
+    /* padding: 1px 1px; Add space inside cells */
+  }
+  thead tr {
+    border-bottom: 3px solid #000; /* Darker border for headers */
+  }
+  .stickyHeader {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+}
+
+.scrollableBody {
+  
+    overflow-y: auto;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+
+.table {
+  min-width: 70vw; /* Set a minimum width for the table */
+  width: 100%; /* Allow the table to take full width */
+}
+.noteColumn{
+  width: 200px;
+}

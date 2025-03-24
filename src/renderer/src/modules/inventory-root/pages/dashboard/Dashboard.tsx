@@ -6,20 +6,33 @@ import { useNavigate } from "react-router-dom"
 import StatsCard from "@renderer/ui/common/cards/dashboard/StatsCards"
 import { useSummary } from "@renderer/hooks/stats/useInventorySummary"
 import { ProductStore } from "@renderer/store/admin/stores"
-import { useEffect, useState } from "react"
-import { recentSalesSummary } from "@renderer/store/recent_sales"
+import { useState } from "react"
 import RecentSalesTable from "@renderer/ui/organisms/data-table/recent-sales/RecentSalesTable"
+import classes from "./index.module.css"
 
 
 const DashBoard = () => {
     const theme = useMantineTheme();
-    const [selectedStore, setSelectedStore] = useState<number | null>(null);
-   
+    const [selectedStoreindex, setSelectedStoreindex] = useState<number | null>(null);
+    const [selectedStore, setSelectedStore] = useState<any>({})
+
 
     const { TotalProducts, TotalStock, LowStocks, OutOfStocks, loading, storeName, handleSelectStoreSummary } = useSummary();
     const navigate = useNavigate();
 
-  
+    const handleSelectStore = (store: any) => {
+        console.log(store)
+        setSelectedStore(store)
+    }
+    const handlePOSNavigate = () => {
+        if (!selectedStore) return alert("Select a store to continue")
+        if (storeName === "General Summary") return alert("Select a store to continue.")
+        navigate("/pos", {
+            state: JSON.stringify(selectedStore)
+        })
+        setSelectedStore({})
+    }
+
 
     const miniStoreCards = ProductStore.stores.map((data, index) => (
         <UnstyledButton
@@ -27,10 +40,11 @@ const DashBoard = () => {
             p="md"
             mb="lg"
             w="200px"
-            bg={selectedStore === data.id ? theme.colors.blue[1] : "white"}
+            className={`${classes.card} ${selectedStoreindex === data.id  ? classes.selectedCard : "white"}`}
             onClick={() => {
-                setSelectedStore(data.id);
+                setSelectedStoreindex(data.id);
                 handleSelectStoreSummary(data.id, data.name);
+                handleSelectStore(data)
             }}
         >
             <Text c="black" fw={500}>
@@ -87,14 +101,14 @@ const DashBoard = () => {
                     <Paper h={`50vh`} p={`sm`}>
                         <Group justify="space-between">
                             <Text size="lg" c={`dimmed`}>Sales</Text>
-                            <Button size="md" color={defaultColors.darkBlue} onClick={() => navigate("/pos")}>
+                            <Button size="md" color={defaultColors.darkBlue} onClick={handlePOSNavigate}>
                                 POS
                             </Button>
                         </Group>
                         <Text c={`dimmed`} size="sm" mt={`lg`}>Recent Sales</Text>
                         <RecentSalesTable onselect={function (data: any): void {
-                                throw new Error("Function not implemented.")
-                            } }/>
+                            throw new Error("Function not implemented.")
+                        }} />
                     </Paper>
                     <Paper h={`50vh`} p={`sm`}>
                         <Text size="lg" c={`dimmed`}>Product By Category</Text>

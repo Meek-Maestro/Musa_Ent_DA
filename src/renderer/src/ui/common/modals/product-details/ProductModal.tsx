@@ -8,15 +8,16 @@ import classes from "./table.module.css";
 interface Props {
   onselect?: (data: any) => void;
   closeModal:()=> void
+  storeName:string
 }
 
-export default observer(function ProductModalTable({ onselect, closeModal }: Props) {
+export default observer(function ProductModalTable({ onselect, closeModal, storeName }: Props) {
   const [products_, setProducts] = useState<any[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    setProducts(products.products || []);
+    setProducts(products.products.filter((s)=> s.store.name === storeName) || []);
   }, [products.products]);
 
   const handleSelectProduct = (product: any) => {

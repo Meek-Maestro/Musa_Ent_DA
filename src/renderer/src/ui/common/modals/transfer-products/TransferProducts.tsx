@@ -12,7 +12,7 @@ interface productsProps {
 }
 
 export default observer(function TransferProductModal({ selectedProducts, deleteProduct, closeModal }: productsProps) {
-    const { transfer_form, transferProduct } = useTransferProducts();
+    const { transfer_form, transferProduct, submitting } = useTransferProducts();
     const [stores, setStores] = useState<any[]>([]);
 
     useEffect(() => {
@@ -100,7 +100,7 @@ export default observer(function TransferProductModal({ selectedProducts, delete
                         />
                     </Group>
                     <Group justify="end" mt={`sm`} p={`sm`} style={{ borderTop: "1px solid gainsboro" }}>
-                        <Button type="submit" w={`200px`} h={`50px`}>
+                        <Button loading={submitting} type="submit" w={`200px`} h={`50px`}>
                             Transfer
                         </Button>
                     </Group>

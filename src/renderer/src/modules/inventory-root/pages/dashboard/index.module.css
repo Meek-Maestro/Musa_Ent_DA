@@ -1,0 +1,12 @@
+.card:hover{
+    background-color: var(--mantine-primary-color-0);
+    cursor: pointer;
+}
+.card {
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+.selectedCard{
+    background-color: var(--mantine-primary-color-0);
+}

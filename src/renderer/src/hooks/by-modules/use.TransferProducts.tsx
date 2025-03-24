@@ -3,6 +3,7 @@ import { useState } from "react";
 import { api } from "@renderer/api/api";
 import { authManager } from "@renderer/store/auth";
 import { ProductStore } from "@renderer/store/admin/stores";
+import { products } from "@renderer/store/admin/products";
 
 interface TransferProduct {
     id: number;
@@ -50,6 +51,8 @@ export function useTransferProducts() {
             });
             await ProductStore.loadStores();
             await ProductStore.loadStockReports();
+            await products.loadProducts()
+            setSubmitting(false)
             return true;
         } catch (error) {
             console.error("Transfer failed:", error);

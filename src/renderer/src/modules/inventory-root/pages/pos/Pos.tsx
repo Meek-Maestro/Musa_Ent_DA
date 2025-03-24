@@ -10,6 +10,7 @@ import { runInAction } from "mobx";
 import CustomerDetails from "@renderer/ui/common/modals/customer-details/CustomerDetails";
 import { useInvoice } from "@renderer/hooks/use.Invoice";
 import { useConfirm } from "@renderer/hooks/common/use.Confirm.Modals";
+import { useLocation } from "react-router-dom";
 
 interface CartDetails {
     product_name: string;
@@ -20,6 +21,8 @@ interface CartDetails {
 }
 
 const POS = observer(() => {
+    const location = useLocation()
+    const [selectedStoreDetails, setSelectedStoreDetails] = useState<any>({})
     const { invoice_form, createInvoice, submiting } = useInvoice()
     const { confirm } = useConfirm()
     const [products, setProducts] = useState<CartDetails[]>([]);
@@ -34,7 +37,13 @@ const POS = observer(() => {
         quantity: "",
     });
 
-    console.log(selectedCustomer)
+    useEffect(()=>{
+        setSelectedStoreDetails(JSON.parse(location?.state))
+    }, [location])
+
+    console.log("Store Details", selectedStoreDetails)
+
+    
 
     const validateFields = () => {
         const newErrors = {
@@ -78,7 +87,7 @@ const POS = observer(() => {
             invoice_form.setFieldValue("customer_phone", selectedCustomer?.phone_number);
             invoice_form.setFieldValue("printed", false);
             invoice_form.setFieldValue("products", updatedProducts);
-            invoice_form.setFieldValue("store", 1);
+            invoice_form.setFieldValue("store", selectedStoreDetails.id);
         })
     }, [products, selectedCustomer])
 
@@ -91,7 +100,7 @@ const POS = observer(() => {
     };
 
     return (
-        <AppPageWrapper title="POS" right={<UserButton />}>
+        <AppPageWrapper title={`POS/${selectedStoreDetails?.name}`} right={<UserButton />}>
             <SimpleGrid >
                 <form onSubmit={invoice_form.onSubmit(async () => {
                     console.log(invoice_form.values)
@@ -212,7 +221,7 @@ const POS = observer(() => {
                 <Box style={{ overflow: "hidden" }}>
                     <Title order={3}>Products</Title>
                     <Divider my={`md`} />
-                    <ProductModal onselect={setSelectedProduct} closeModal={() => setOpenModal(false)} />
+                    <ProductModal storeName={selectedStoreDetails?.name} onselect={setSelectedProduct} closeModal={() => setOpenModal(false)} />
                 </Box>
             </Modal>
             <Modal size={`70%`} centered opened={openCustomerModal} onClose={() => setOpenCustomerModal(false)}>

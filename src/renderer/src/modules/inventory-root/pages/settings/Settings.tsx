@@ -6,6 +6,8 @@ import { ReactNode, useState } from "react"
 import UserManagement from "../../components/settings/UserManagement"
 import StoreManagement from "../../components/settings/StoreManagement"
 import Inventory from "../../components/settings/Inventory"
+import DataManagement from "../../components/settings/DataManagement"
+import React from "react"
 
 const Settings = () => {
     const [selected, setSelected] = useState<string | null>("User")
@@ -13,13 +15,16 @@ const Settings = () => {
     let selectedComponent: ReactNode
     switch (selected) {
         case "User":
-            selectedComponent = <UserManagement/>
+            selectedComponent = <UserManagement />
             break
         case "Store":
-            selectedComponent = <StoreManagement/>
+            selectedComponent = <StoreManagement />
             break
         case "Inventory":
-            selectedComponent = <Inventory/>
+            selectedComponent = <Inventory />
+            break
+        case "Data":
+            selectedComponent = <DataManagement />
             break
         default:
             selectedComponent = null
@@ -30,9 +35,11 @@ const Settings = () => {
         <>
             <AppPageWrapper title="Settings" right={<UserButton />}>
                 <Box>
-                    <NavCard onSelect={setSelected} selected={selected}/>
+                    <NavCard onSelect={setSelected} selected={selected} />
                 </Box>
-                {selectedComponent}
+                <React.Fragment>
+                    {selectedComponent}
+                </React.Fragment>
             </AppPageWrapper>
         </>
 

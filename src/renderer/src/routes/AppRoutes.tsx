@@ -33,6 +33,7 @@ import { storeSummary } from '@renderer/store/summary';
 import { recentSalesSummary } from '@renderer/store/recent_sales';
 import TransferProducts from '@renderer/ui/common/modals/transfer-products/TransferProducts';
 import { expenseStore } from '@renderer/store/admin/expenses';
+import { backupSummary } from '@renderer/store/admin/backups';
 // import { ModalsProvider } from '@mantine/modals';
 
 // const modals = {};
@@ -100,7 +101,8 @@ export const AppRoutes = observer(() => {
         categoriesStore.loadCategories(),
         purchaseStore.loadPurchases(),
         recentSalesSummary.loadRecentSales(),
-        expenseStore.loadExpenses()
+        expenseStore.loadExpenses(),
+        backupSummary.loadSummary()
       ])
         .then(() => showNotification({
           title: "Musa Enterprise",

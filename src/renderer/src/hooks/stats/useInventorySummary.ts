@@ -15,18 +15,6 @@ export function useSummary() {
         })
     }, [storeSummary.summary, storeName])
 
-    function productsTotal() {
-        return summary?.total_products?.total
-    }
-    function StocksTotal() {
-        return summary?.total_stock?.total
-    }
-    function lowStocks() {
-        return summary?.low_stock?.total
-    }
-    function outOfStock() {
-        return summary?.out_of_stock?.total
-    }
     const handleSelectStoreSummary = async (id: number, storeName: string) => {
         setloading(true)
         try {

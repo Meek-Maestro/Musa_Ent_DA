@@ -19,7 +19,9 @@ export default observer(function StoreManagement() {
                     Add Store
                 </Button>
 
-                <StatsCard/>
+                <StatsCard onselect={function (data: any): void {
+                    throw new Error("Function not implemented.");
+                } }/>
             </Group>
             
             {/* <StoreOverview/> */}

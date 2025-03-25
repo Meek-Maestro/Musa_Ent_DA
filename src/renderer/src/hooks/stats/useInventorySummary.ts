@@ -7,7 +7,9 @@ export function useSummary() {
     const [loading, setloading] = useState(false)
     const [storeName, setStoreName] = useState("General Summary")
     useEffect(() => {
-        setsummary(storeSummary.summary || {})
+        runInAction(()=>{
+            setsummary(storeSummary.summary || {})
+        })
         runInAction(()=>{
             storeName === "General Summary" && storeSummary.loadSummary()
         })
@@ -42,10 +44,10 @@ export function useSummary() {
     }
 
     return {
-        TotalProducts: productsTotal(),
-        TotalStock: StocksTotal(),
-        LowStocks: lowStocks(),
-        OutOfStocks: outOfStock(),
+        TotalProducts: summary?.total_products?.total,
+        TotalStock: summary?.total_stock?.total,
+        LowStocks: summary?.low_stock?.total,
+        OutOfStocks: summary?.out_of_stock?.total,
         loading,
         storeName,
         handleSelectStoreSummary

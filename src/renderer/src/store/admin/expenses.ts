@@ -13,7 +13,9 @@ class ExpenseStore {
         const { data: data } = await api.get("api/v1/expense/", {
             headers: {
                 Authorization: `Bearer ${access_token}`
-            }
+            },
+            // @ts-ignore
+            silent: true,
         })
         runInAction(() => {
             this.expenses = data.data

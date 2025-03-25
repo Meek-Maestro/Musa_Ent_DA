@@ -98,7 +98,7 @@ export default function EditPurchase() {
   return (
     <>
       <AppPageWrapper title="Edit Purchase" right={<UserButton />}>
-        <ActionIcon size={`xl`} mb={`md`} onClick={() => navigate("/expenses")}>
+        <ActionIcon size={`xl`} mb={`md`} onClick={() => navigate("/purchase")}>
           <MdArrowBack size={30} />
         </ActionIcon>
         <form

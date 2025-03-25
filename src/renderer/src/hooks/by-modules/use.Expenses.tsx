@@ -45,10 +45,10 @@ export function useExpenses() {
         }
     }
 
-    async function updateExpense() {
+    async function updateExpense(id:string) {
         setSubmitting(false)
         try {
-            await api.put("api/v1/expense/", expense_form.values, {
+            await api.put(`api/v1/expense/${id}/`, expense_form.values, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }

@@ -32,6 +32,7 @@ import { authManager } from '@renderer/store/auth';
 import { storeSummary } from '@renderer/store/summary';
 import { recentSalesSummary } from '@renderer/store/recent_sales';
 import TransferProducts from '@renderer/ui/common/modals/transfer-products/TransferProducts';
+import { expenseStore } from '@renderer/store/admin/expenses';
 // import { ModalsProvider } from '@mantine/modals';
 
 // const modals = {};
@@ -89,6 +90,7 @@ export const AppRoutes = observer(() => {
       });
 
       await Promise.all([
+        storeSummary.loadSummary(),
         userStore.loadusers(),
         customerStore.loadCustomers(),
         SupplierStore.loadSuppliers(),
@@ -97,8 +99,8 @@ export const AppRoutes = observer(() => {
         products.loadProducts(),
         categoriesStore.loadCategories(),
         purchaseStore.loadPurchases(),
-        storeSummary.loadSummary(),
-        recentSalesSummary.loadRecentSales()
+        recentSalesSummary.loadRecentSales(),
+        expenseStore.loadExpenses()
       ])
         .then(() => showNotification({
           title: "Musa Enterprise",

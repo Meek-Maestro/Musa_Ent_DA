@@ -10,13 +10,11 @@ import { useState } from "react"
 import RecentSalesTable from "@renderer/ui/organisms/data-table/recent-sales/RecentSalesTable"
 import classes from "./index.module.css"
 
-
 const DashBoard = () => {
     const theme = useMantineTheme();
     const [selectedStoreindex, setSelectedStoreindex] = useState<number | null>(null);
     const [selectedStore, setSelectedStore] = useState<any>({})
-
-
+  
     const { TotalProducts, TotalStock, LowStocks, OutOfStocks, loading, storeName, handleSelectStoreSummary } = useSummary();
     const navigate = useNavigate();
 

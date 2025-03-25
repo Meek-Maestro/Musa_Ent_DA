@@ -6,7 +6,7 @@ import { MdClose } from "react-icons/md";
 
 export const api = axios.create({
     baseURL: "https://inventory-management-system-nat.onrender.com/",
-    timeout: 30000,
+    timeout: 20000,
     headers: {
         "Content-Type": "application/json",
     },

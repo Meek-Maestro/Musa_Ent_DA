@@ -37,13 +37,13 @@ const POS = observer(() => {
         quantity: "",
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         setSelectedStoreDetails(JSON.parse(location?.state))
     }, [location])
 
     console.log("Store Details", selectedStoreDetails)
 
-    
+
 
     const validateFields = () => {
         const newErrors = {
@@ -57,6 +57,16 @@ const POS = observer(() => {
 
     const handleAddToCart = () => {
         if (!validateFields()) return;
+
+        // Check if the selected quantity exceeds the available quantity
+        if (quantity > selectedProduct?.quantity) {
+            setErrors((prev) => ({
+                ...prev,
+                quantity: "Selected quantity exceeds available quantity",
+            }));
+            return; // Prevent adding to cart
+        }
+
         setProducts((prev) => [
             ...prev,
             {
@@ -64,16 +74,17 @@ const POS = observer(() => {
                 cost: parseInt(selectedProduct.cost_price),
                 quantity: quantity,
                 total: quantity * selectedProduct.cost_price,
-                description: selectedProduct.description
+                description: selectedProduct.description,
             },
         ]);
+
         runInAction(() => {
             setSelectedProduct({});
             setQuantity("");
         });
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         const updatedProducts = products.map(product => ({
             product_name: product.product_name,
             cost: product.cost,
@@ -81,7 +92,7 @@ const POS = observer(() => {
             description: product.description,
             discount: 0
         }));
-        runInAction(()=>{
+        runInAction(() => {
             invoice_form.setFieldValue("customer_address", selectedCustomer?.address);
             invoice_form.setFieldValue("customer_fullname", selectedCustomer?.customer_name);
             invoice_form.setFieldValue("customer_phone", selectedCustomer?.phone_number);
@@ -137,21 +148,44 @@ const POS = observer(() => {
                                     value={selectedProduct?.cost_price || ""}
                                     error={errors.cost}
                                 />
-                                <NumberInput
-                                    variant="filled"
-                                    size="md"
-                                    label="Quantity"
-                                    value={quantity}
-                                    onChange={setQuantity}
-                                    error={errors.quantity}
-                                />
+
+                                <Group grow>
+                                    <NumberInput
+                                        variant="filled"
+                                        size="md"
+                                        label="Quantity"
+                                        value={quantity??""}
+                                        onChange={(value) => {
+                                            setQuantity(value);
+                                            if (value > selectedProduct?.quantity) {
+                                                setErrors((prev) => ({
+                                                    ...prev,
+                                                    quantity: "Selected quantity exceeds available quantity",
+                                                }));
+                                            } else {
+                                                setErrors((prev) => ({
+                                                    ...prev,
+                                                    quantity: "",
+                                                }));
+                                            }
+                                        }}
+                                        error={errors.quantity}
+                                    />
+                                    <NumberInput
+                                        variant="filled"
+                                        size="md"
+                                        label="Available Quantity"
+                                        value={selectedProduct?.quantity}
+                                        readOnly
+                                    />
+                                </Group>
                             </Stack>
-                            <Stack w="30%">
+                            <Stack w="50%">
                                 <Textarea label="Description" value={selectedProduct?.description || ""} />
                                 <Button
                                     leftSection={<FaCartPlus size={20} />}
                                     onClick={handleAddToCart}
-                                    disabled={!selectedProduct}
+                                    disabled={!selectedProduct || quantity <= 0 || quantity > selectedProduct?.quantity}
                                 >
                                     Add to Cart
                                 </Button>

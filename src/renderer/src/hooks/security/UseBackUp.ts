@@ -1,5 +1,6 @@
 import { useForm } from "@mantine/form"
 import { api } from "@renderer/api/api"
+import { backupSummary } from "@renderer/store/admin/backups"
 import { authManager } from "@renderer/store/auth"
 import { useState } from "react"
 
@@ -19,17 +20,30 @@ export function useBackUp() {
             end_date: new Date().toISOString().split("T")[0]
         }, validate: {
             period: (value) => value ? null : "Select a period",
-            start_date:(value)=> value ? null :"",
-            end_date:(value)=> value ? null:""
+            start_date: (value) => value ? null : "",
+            end_date: (value) => value ? null : ""
         }
     })
 
-    async function backup() {
+    async function backup(formData:FormData): Promise<boolean> {
+        
         setloading(true)
         try {
-            await api.post("")
+            const backup = await api.post("api/v1/backup/", formData, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                    "Content-Type": "multipart/form-data",
+                }
+            })
+            console.log(backup)
+            backupSummary.loadSummary()
+            setloading(false)
+            return true
         } catch (error) {
-
+            console.log(error)
+            return false
+        } finally {
+            setloading(false)
         }
     }
 

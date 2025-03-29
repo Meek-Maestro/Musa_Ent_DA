@@ -1,13 +1,13 @@
 import { makeAutoObservable, runInAction } from "mobx"
 
 class RouterUtilsManager{
-    activeNavigationPath = "/"
+    activeNavigationPath:string | undefined = "/"
     toggleMainDrawer:()=>void = ()=>{}
     constructor(){
         makeAutoObservable(this)
     }
 
-    setActiveNavigationPath =(path:string)=>{
+    setActiveNavigationPath =(path:string | undefined)=>{
         runInAction(()=>{
             this.activeNavigationPath = path
             this.toggleMainDrawer

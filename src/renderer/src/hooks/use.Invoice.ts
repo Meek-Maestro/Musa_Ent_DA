@@ -15,9 +15,7 @@ interface IProduct {
 
 interface IInvoice {
     store: number;
-    customer_fullname: string;
-    customer_phone: string;
-    customer_address: string;
+    customer:number
     note: string;
     products: IProduct[];
     printed: boolean;

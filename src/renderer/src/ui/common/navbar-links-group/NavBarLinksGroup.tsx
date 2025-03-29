@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Group, rem, Text, Collapse, Stack, UnstyledButton } from "@mantine/core";
 import { MdChevronRight } from "react-icons/md";
@@ -30,18 +30,21 @@ function NavbarLinkItem({ label, link, icon: Icon, links = [] }: {
     const [opened, setOpened] = useState(false);
     const hasSublinks = links.length > 0;
 
+    useEffect(() => {
+        routerUtilsManager.setActiveNavigationPath(link)
+    }, [routerUtilsManager.activeNavigationPath])
+
     return (
         <>
-
             <UnstyledButton
-                onClick={() => {
+                onClick={(event) => {
                     if (!hasSublinks && link) {
                         navigate(link);
-                        console.log(link)
-                        routerUtilsManager.setActiveNavigationPath(link);
                     } else {
                         setOpened((o) => !o);
                     }
+                    routerUtilsManager.setActiveNavigationPath(link);
+                    event.preventDefault()
                 }}
 
                 className={routerUtilsManager.activeNavigationPath === link ? "active" : "control"}

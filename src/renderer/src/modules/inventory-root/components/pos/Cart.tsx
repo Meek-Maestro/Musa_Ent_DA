@@ -82,7 +82,7 @@ export default observer(function Cart() {
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
                                         <Stack>
-                                            <NumberInput w={`60px`} />
+                                            <NumberInput defaultValue={`1`} w={`60px`} />
                                         </Stack>
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
@@ -92,7 +92,7 @@ export default observer(function Cart() {
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
                                         <Stack>
-                                            <NumberInput w={`100px`} />
+                                            <NumberInput defaultValue={item.discount.toString()} w={`100px`} />
                                         </Stack>
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>

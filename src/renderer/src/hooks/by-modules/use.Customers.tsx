@@ -17,6 +17,7 @@ export function useCustomerOperations() {
       "phone_number": "",
       "bank_name": "",
       "bank_account_number": "",
+      "credit_limit": 0,
       "address": "",
       "status": "active"
     },
@@ -25,6 +26,7 @@ export function useCustomerOperations() {
       "phone_number": (value) => value ? null : "Phone Number is required",
       "bank_name": (value) => value ? null : "Bank Name is required",
       "bank_account_number": (value) => value ? null : "Bank Account Number is required",
+      "credit_limit": (value) => value ? null : "",
       "address": (value) => value ? null : "Address is required",
       "status": (value) => value ? null : "Status is required",
     }
@@ -42,7 +44,7 @@ export function useCustomerOperations() {
       }
     })
   }
-  function startEditCustomerOperation(data:any) {
+  function startEditCustomerOperation(data: any) {
     modals.openContextModal({
       modal: "render_editCustomer",
       title: <Text size="xl" fw={700}>Edit Customer</Text>,
@@ -51,11 +53,12 @@ export function useCustomerOperations() {
       size: "xl",
       padding: "md",
       innerProps: {
-        id:data?.id,
+        id: data?.id,
         "customer_name": data?.customer_name,
         "phone_number": data?.phone_number,
         "bank_name": data?.bank_name,
         "bank_account_number": data?.bank_account_number,
+        "credit_limit":data?.credit_limit,
         "address": data?.address,
         "status": data?.status
       }
@@ -83,7 +86,7 @@ export function useCustomerOperations() {
       return false;
     }
   }
-  async function updateCustomer(id: string): Promise<boolean> {
+  async function updateCustomer(id: number): Promise<boolean> {
     setSubmiting(true)
     try {
       await api.put(`/api/v1/customers/${id}/`, customer_form.values, {

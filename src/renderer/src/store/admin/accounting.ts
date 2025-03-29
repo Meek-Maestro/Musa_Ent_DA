@@ -20,7 +20,6 @@ class Accounting {
             silent: true,
         })
         runInAction(() => {
-            console.log("Loaded")
             this.customer_accounting = data
         })
     }
@@ -34,7 +33,7 @@ class Accounting {
             silent: true,
         })
         runInAction(() => {
-            this.supplier_Accounting = data.data
+            this.supplier_Accounting = data
         })
     }
 }

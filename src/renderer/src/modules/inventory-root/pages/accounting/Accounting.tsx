@@ -6,19 +6,27 @@ import classes from "./index.module.css"
 import SupplierAccountingTable from "@renderer/ui/organisms/data-table/accounting-supplier/SupplierAccountingTable";
 import { useCustomerA_Operations } from "@renderer/hooks/by-modules/use.Customer.Accounting";
 import CustomerAccountingTable from "@renderer/ui/organisms/data-table/accounting-customer/CustomerAccountingTable";
-import { CustomersAccounting } from "@renderer/interface";
+import { CustomersAccounting, SupplierAccounting } from "@renderer/interface";
 import { useConfirm } from "@renderer/hooks/common/use.Confirm.Modals";
+import { useSupplierA_Operations } from "@renderer/hooks/by-modules/use.Supplier.Accounting";
 
 
 function Accounting() {
     const [value, setValue] = useState('customers');
     const [selectedCustomer, setSelectedCustomer] = useState<CustomersAccounting | null>(null)
+    const [selectedSupplier, setSelectedSupplier] = useState<SupplierAccounting | null>(null)
     const { startAddCustomer_AOperation, deleteCustomer } = useCustomerA_Operations()
+    const {startAddSupplier_AOperation} = useSupplierA_Operations()
     const { confirmDelete } = useConfirm()
 
     const handleDeleteCustomer_A = () => {
         if (selectedCustomer) {
             confirmDelete(() => deleteCustomer(selectedCustomer.id), "Confirm Delete", "Are you sure you want to delete this resource?")
+        }
+    }
+    const handleDeleteSupplier = () => {
+        if (selectedSupplier) {
+            confirmDelete(() => deleteCustomer(selectedSupplier.id), "Confirm Delete", "Are you sure you want to delete this resource?")
         }
     }
     const Utils = () => (
@@ -27,9 +35,9 @@ function Accounting() {
                 {value === "suppliers" && (
                     <Stack>
                         <Group>
-                            <Button className={classes.addBtn} variant="filled">Add Supplier Account</Button>
+                            <Button className={classes.addBtn} variant="filled" onClick={startAddSupplier_AOperation}>Add Supplier Account</Button>
                             {/* <Button className={classes.editBtn} variant="filled">Edit Supplier Account</Button> */}
-                            <Button className={classes.deleteBtn} variant="filled">Delete Supplier Account</Button>
+                            <Button className={classes.deleteBtn} variant="filled" onClick={handleDeleteSupplier}>Delete Supplier Account</Button>
                         </Group>
 
                         {/* <Group justify="center">
@@ -91,9 +99,7 @@ function Accounting() {
     let sectionComponent: ReactNode;
     switch (value) {
         case 'suppliers':
-            sectionComponent = <SupplierAccountingTable onselect={function (data: any): void {
-                throw new Error("Function not implemented.");
-            }} />
+            sectionComponent = <SupplierAccountingTable onselect={setSelectedSupplier} />
             break;
         case 'customers':
             sectionComponent = <CustomerAccountingTable onselect={setSelectedCustomer} />

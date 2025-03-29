@@ -31,6 +31,12 @@ const AddCustomer = observer(() => {
                                 height: "40px"
                             }
                         }} variant="filled" {...customer_form.getInputProps("address")} />
+                        <label >Status</label>
+                        <Select styles={{
+                            input: {
+                                height: "40px"
+                            }
+                        }} variant="filled" data={["active", "inactive"]} {...customer_form.getInputProps("status")} />
                     </Stack>
                     <Stack>
                         <label >Bank account Number</label>
@@ -45,13 +51,12 @@ const AddCustomer = observer(() => {
                                 height: "40px"
                             }
                         }} variant="filled" {...customer_form.getInputProps("bank_name")} />
-
-                        <label >Status</label>
-                        <Select styles={{
+                        <label >Credit Limit</label>
+                        <Input styles={{
                             input: {
                                 height: "40px"
                             }
-                        }} variant="filled" data={["active", "inactive"]} {...customer_form.getInputProps("status")} />
+                        }} variant="filled" {...customer_form.getInputProps("credit_limit")} />
                     </Stack>
 
                 </SimpleGrid>

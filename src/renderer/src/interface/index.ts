@@ -8,30 +8,32 @@ export interface LinksGroupProps {
     }[];
 }
 export interface Customers {
-    id: any;
+    id?: number;
     "customer_name": string,
     "phone_number": string,
     "bank_name": string,
     "bank_account_number": string,
+    "credit_limit": number
     "address": string,
     "status": string
 }
 
 export interface CustomersAccounting {
-    id:number
+    id: number
     "payment_date": string,
     "payment_method": string,
     "memo": string,
-    "customer"?: {id:number, customer_name:string},
+    "customer"?: { id: number, customer_name: string },
     "amount_paid": number,
     "received_by": string
 }
 
 export interface SupplierAccounting {
+    id: number
     "payment_date": string,
     "payment_method": string,
     "memo": string,
-    "supplier": number,
+    "supplier": { id: number, supplier_name: string },
     "amount_paid": number
     "received_by": string
 }

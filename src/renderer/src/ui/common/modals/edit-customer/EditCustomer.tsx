@@ -6,11 +6,12 @@ import { modals } from "@mantine/modals";
 
 interface EditCustomerProps extends ModalProps {
     innerProps: {
-        id: string
+        id: number
         customer_name: string;
         phone_number: string;
         bank_name: string;
         bank_account_number: string;
+        credit_limit: number
         address: string;
         status: string;
     };
@@ -59,13 +60,19 @@ const EditCustomer = observer(({ innerProps }: EditCustomerProps) => {
                                 height: "40px"
                             }
                         }} variant="filled" {...customer_form.getInputProps("bank_account_number")} />
+
                         <label >Bank Name</label>
                         <Input styles={{
                             input: {
                                 height: "40px"
                             }
                         }} variant="filled" {...customer_form.getInputProps("bank_name")} />
-
+                        <label >Credit Limit</label>
+                        <Input styles={{
+                            input: {
+                                height: "40px"
+                            }
+                        }} type="number" variant="filled" {...customer_form.getInputProps("credit_limit")} />
                         <label >Status</label>
                         <Select styles={{
                             input: {

@@ -20,8 +20,6 @@ export default observer(function CustomerAccountingDataTable({ onselect }: props
     setIsloading(false);
   }, [accounting.customer_accounting]);
 
-  console.log("Customers accounting", customers)
-
   // Function to handle checkbox selection
   const handleSelectCustomer = (customer: any, isChecked: boolean) => {
     if (isChecked) {

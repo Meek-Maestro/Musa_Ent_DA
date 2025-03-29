@@ -1,10 +1,8 @@
 import { observer } from "mobx-react";
 import AppPageWrapper from "../../../../ui/common/AppPageWrapper";
-import { Box, Button, Center, Divider, Group, SegmentedControl, Select, Stack, useMantineTheme } from "@mantine/core";
+import { Box, Button, Center, Divider, Group, SegmentedControl, Stack, useMantineTheme } from "@mantine/core";
 import { UserButton } from "../../../../ui/common/user-button/User-button";
 import classes from "./index.module.css"
-import { MdPrint } from "react-icons/md"
-import { TiExport } from "react-icons/ti";
 import { useState } from "react";
 import SuppliersDataTable from "../../../../ui/organisms/data-table/suppliers-table/SuppliersDataTable";
 import CustomerDataTable from "../../../../ui/organisms/data-table/customers-table/CustomerTable";
@@ -16,7 +14,6 @@ const Suppliers_Customers = observer(() => {
     const {confirmDelete}= useConfirm()
     const { startAddCustomerOperation, startEditCustomerOperation, deleteCustomer } = useCustomerOperations()
     const { startAddSupplierOperation, startEditSupplierOperation, deleteSupplier } = useSupplier()
-    const theme = useMantineTheme()
     const [value, setValue] = useState('suppliers');
     const [selectedCustomer, setSelectedCustomer] = useState<any>({})
     const [selectedSupplier, setSelectedSupplier] = useState<any>({})
@@ -32,17 +29,6 @@ const Suppliers_Customers = observer(() => {
     const Utils = () => (
         <Box bg={`white`} p={`sm`} style={{ borderRadius: "12px" }}>
             <Group justify="space-between">
-                {/* <Group>
-                    <Select variant="filled" placeholder="Select Category" styles={{
-                        input: { padding: `20px`, border: `2px solid ${theme.colors.gray[3]}` }
-                    }} label="Select Category" />
-                    <Select variant="filled" placeholder="Time frame" label="From" styles={{
-                        input: { padding: `20px`, border: `2px solid ${theme.colors.gray[3]}` }
-                    }} />
-                    <Select variant="filled" label="To" styles={{
-                        input: { padding: `20px`, border: `2px solid ${theme.colors.gray[3]}` }
-                    }} />
-                </Group> */}
                 {value === "suppliers" && (
                     <Stack>
                         <Group>

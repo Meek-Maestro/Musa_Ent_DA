@@ -8,6 +8,7 @@ import { MdArrowBack, MdPrint } from "react-icons/md";
 import { logoImg } from "../../../../../assets";
 import { defaultColors } from "../../../../../ui/constants/constants";
 import { FaPen } from "react-icons/fa6";
+import logo from "./logo.jpeg"
 
 export default function ViewPurchase() {
     const [purchase, setPurchase] = useState<any>(null);
@@ -15,6 +16,8 @@ export default function ViewPurchase() {
     const [searchParams] = useSearchParams();
     const location = useLocation();
     const navigate = useNavigate();
+
+
 
     useEffect(() => {
         const idFromParams = params.id;
@@ -24,7 +27,7 @@ export default function ViewPurchase() {
         const foundPurchase = purchaseStore.purchases.find((p: any) => p.id.toString() === id.toString());
         setPurchase(foundPurchase);
     }, [params, searchParams, location?.state, purchaseStore.purchases]);
-
+    console.log(purchase)
     if (!purchase) {
         return (
             <AppPageWrapper title="" right={<UserButton />}>
@@ -37,6 +40,287 @@ export default function ViewPurchase() {
             </AppPageWrapper>
         );
     }
+    const handlePrint = () => {
+        const iframe = document.createElement("iframe");
+        iframe.style.position = "absolute";
+        iframe.style.width = "0px";
+        iframe.style.height = "0px";
+        iframe.style.border = "none";
+        document.body.appendChild(iframe);
+
+        const doc = iframe.contentWindow?.document;
+        if (!doc) return;
+
+        doc.open();
+        doc.writeln(`
+            <html>
+            <head>
+                <title>Purchase Receipt</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                        position: relative;
+                    }
+            
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+            
+                    th,
+                    td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                        text-align: left;
+                    }
+            
+                    th {
+                        background-color: #333;
+                        color: white;
+                    }
+            
+                    .header,
+                    .footer {
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+            
+                    /* Watermark styling */
+                    .watermark {
+                        position: fixed;
+                        top: 40%;
+                        left: 40%;
+                        transform: translate(-30%, -30%);
+                        font-size: 50px;
+                        color: rgba(255, 0, 0, 0.1); /* Light gray and semi-transparent */
+                        z-index: -1; /* Ensure it stays behind the content */
+                        pointer-events: none; /* Prevent interaction */
+                        white-space: nowrap;
+                        rotate:-40deg;
+                        font-size:6rem;
+                        font-weight:700;
+                    }
+                </style>
+            </head>
+            
+            <body>
+                <!-- Watermark -->
+              
+            <div class="watermark">Reprint</div>
+                <div style="display: flex; gap:5px; justify-content:center; align-items:center;">
+                    <div style="width: 100px; height: 100px;">
+                         <img src="${logo}" width="100%" height="100%" style="border-radius: 50px;" />
+                    </div>
+                   <div style="display:flex; flex-direction: column; gap:0px; align-items:center;">
+                        <h1 style="margin: 0; font-size:25px; font-weight:bold;">Musa Yaro</h1>
+                        <div style=" margin: 0;">General Merchandise</div>
+                    </div>
+                </div>
+            
+                <div class="header">
+                    <h2>Purchase Receipt</h2>
+                    <p style="margin:2px;">Musa Yaro General Merchandise</p>
+                    <p style="margin:2px;">No 93 Sarki Street Jos Plateau State Nigeria</p>
+                    <p style="margin:2px;">07030932204, 08188668855</p>
+                </div>
+                <hr>
+                <div style="display: flex; justify-content: space-between; width: 100%; border-bottom: 1px solid dashed;">
+                    <div>
+                        <p><strong>Orderid:</strong> ${purchase.id}</p>
+                        <p><strong>Order Date:</strong> ${purchase.purchase_date.slice(0, 10)}</p>
+                        <p><strong>Supplier:</strong> ${purchase.supplier.supplier_name}</p>
+                    </div>
+                    <div>
+                        <p><strong>Status:</strong> ${purchase.status}</p>
+                        <p><strong>Arrival Date:</strong> ${purchase.arrival_date.slice(0, 10)}</p>
+                        <p><strong>Supplier Contact:</strong> ${purchase.supplier.phone_number}</p>
+                    </div>
+                </div>
+                <span style="width:100vw; border-bottom:1px solid dashed;">_</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product-name</th>
+                            <th>Discount</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${purchase.purchase_items.map(item => `
+                        <tr>
+                            <td>${item.product_name}</td>
+                            <td>${item.discount}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.unit_price}</td>
+                        </tr>
+                        `).join('')}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" style="text-align:right;"><strong>Total:</strong></td>
+                            <td>
+                                <strong>
+                                    ${purchase.purchase_items.reduce((total, item) => total + item.unit_price * item.quantity, 0).toFixed(2)}
+                                </strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="footer">
+                    <p>Thank you</p>
+                </div>
+            </body>
+            </html>
+            `);
+        doc.close();
+        setTimeout(() => {
+            iframe.contentWindow?.print();
+            document.body.removeChild(iframe);
+        }, 500);
+    };
+    const handleRePrint = () => {
+        const iframe = document.createElement("iframe");
+        iframe.style.position = "absolute";
+        iframe.style.width = "0px";
+        iframe.style.height = "0px";
+        iframe.style.border = "none";
+        document.body.appendChild(iframe);
+
+        const doc = iframe.contentWindow?.document;
+        if (!doc) return;
+
+        doc.open();
+        doc.writeln(`
+            <html>
+            <head>
+                <title>Purchase Receipt</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                        position: relative;
+                    }
+            
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+            
+                    th,
+                    td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                        text-align: left;
+                    }
+            
+                    th {
+                        background-color: #333;
+                        color: white;
+                    }
+            
+                    .header,
+                    .footer {
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+            
+                    /* Watermark styling */
+                    .watermark {
+                        position: fixed;
+                        top: 40%;
+                        left: 40%;
+                        transform: translate(-30%, -30%);
+                        font-size: 50px;
+                        color: rgba(255, 0, 0, 0.1); /* Light gray and semi-transparent */
+                        z-index: -1; /* Ensure it stays behind the content */
+                        pointer-events: none; /* Prevent interaction */
+                        white-space: nowrap;
+                        rotate:-40deg;
+                        font-size:6rem;
+                        font-weight:700;
+                    }
+                </style>
+            </head>
+            
+            <body>
+                <!-- Watermark -->
+              
+            <div class="watermark">Reprint</div>
+                <div style="display: flex; gap:5px; justify-content:center; align-items:center;">
+                    <div style="width: 100px; height: 100px;">
+                         <img src="${logo}" width="100%" height="100%" style="border-radius: 50px;" />
+                    </div>
+                   <div style="display:flex; flex-direction: column; gap:0px; align-items:center;">
+                        <h1 style="margin: 0; font-size:25px; font-weight:bold;">Musa Yaro</h1>
+                        <div style=" margin: 0;">General Merchandise</div>
+                    </div>
+                </div>
+            
+                <div class="header">
+                    <h2>Purchase Receipt</h2>
+                    <p style="margin:2px;">Musa Yaro General Merchandise</p>
+                    <p style="margin:2px;">No 93 Sarki Street Jos Plateau State Nigeria</p>
+                    <p style="margin:2px;">07030932204, 08188668855</p>
+                </div>
+                <hr>
+                <div style="display: flex; justify-content: space-between; width: 100%; border-bottom: 1px solid dashed;">
+                    <div>
+                        <p><strong>Orderid:</strong> ${purchase.id}</p>
+                        <p><strong>Order Date:</strong> ${purchase.purchase_date.slice(0, 10)}</p>
+                        <p><strong>Supplier:</strong> ${purchase.supplier.supplier_name}</p>
+                    </div>
+                    <div>
+                        <p><strong>Status:</strong> ${purchase.status}</p>
+                        <p><strong>Arrival Date:</strong> ${purchase.arrival_date.slice(0, 10)}</p>
+                        <p><strong>Supplier Contact:</strong> ${purchase.supplier.phone_number}</p>
+                    </div>
+                </div>
+                <span style="width:100vw; border-bottom:1px solid dashed;">_</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product-name</th>
+                            <th>Discount</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${purchase.purchase_items.map(item => `
+                        <tr>
+                            <td>${item.product_name}</td>
+                            <td>${item.discount}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.unit_price}</td>
+                        </tr>
+                        `).join('')}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" style="text-align:right;"><strong>Total:</strong></td>
+                            <td>
+                                <strong>
+                                    ${purchase.purchase_items.reduce((total, item) => total + item.unit_price * item.quantity, 0).toFixed(2)}
+                                </strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="footer">
+                    <p>Thank you</p>
+                </div>
+            </body>
+            </html>
+            `);
+        doc.close();
+        setTimeout(() => {
+            iframe.contentWindow?.print();
+            document.body.removeChild(iframe);
+        }, 500);
+    };
+
 
     const purchaseHeaders = {
         orderheaders: [
@@ -62,6 +346,7 @@ export default function ViewPurchase() {
     const Header = () => (
         <Group justify="space-between">
             <Group>
+
                 <Image src={logoImg}
                     style={{
                         width: "30%", objectFit: "contain",
@@ -106,7 +391,6 @@ export default function ViewPurchase() {
 
     const SupplierDetails = () => (
         <Box>
-
             <Table>
                 <thead style={{ padding: "10px", backgroundColor: defaultColors.darkBlue, height: "50px", color: "white" }}>
                     <tr>
@@ -185,7 +469,7 @@ export default function ViewPurchase() {
                 )}
             </Group>
             <Group justify="end" gap={`lg`} mt="md">
-                <Button leftSection={<MdPrint size={30} />} size="lg">
+                <Button leftSection={<MdPrint size={30} />} size="lg" onClick={handlePrint}>
                     Print
                 </Button>
                 <ActionIcon variant="subtle" onClick={() => {
@@ -203,7 +487,7 @@ export default function ViewPurchase() {
             <ActionIcon size={`xl`} mb={`md`} onClick={() => navigate("/expenses")}>
                 <MdArrowBack size={30} />
             </ActionIcon>
-            <Stack w={`100%`} p={`lg`} bg={`white`} style={{ borderRadius: "10px" }}>
+            <Stack id="printable-area" w={`100%`} p={`lg`} bg={`white`} style={{ borderRadius: "10px" }}>
                 <Header />
                 <OrderDetails />
                 <SupplierDetails />

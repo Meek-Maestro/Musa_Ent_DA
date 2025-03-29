@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Button, Group, rem, Text, Collapse, Stack, SimpleGrid, UnstyledButton } from "@mantine/core";
+import { Box, Group, rem, Text, Collapse, Stack, UnstyledButton } from "@mantine/core";
 import { MdChevronRight } from "react-icons/md";
 import { LinksGroupProps } from "../../../interface";
 import "./Navbar.css"
@@ -10,15 +10,13 @@ export function NavbarLinksGroup({ title, items }: LinksGroupProps) {
     return (
 
         <Box className={"navbar-links-group"}>
-            <Text fw="bolder" size="lg" my={10} className={"sectionTitle"}>{title}</Text>
+            <Text fw="bolder" size="md" my={10} className={"sectionTitle"}>{title}</Text>
             <Stack>
                 {items.map((item) => (
                     <NavbarLinkItem key={item.label} {...item} />
                 ))}
             </Stack>
-
         </Box>
-
     );
 }
 

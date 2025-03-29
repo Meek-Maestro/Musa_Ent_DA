@@ -11,8 +11,11 @@ interface IBackUPInput {
 }
 
 export function useBackUp() {
+    const defaultDir = localStorage.getItem("backup_dir") || "C://users/user/documents/backups"
     const { access_token } = authManager.profile
     const [loading, setloading] = useState<boolean>(false)
+    const [backupDir, setBackupDir] = useState<string>(defaultDir)
+
     const backup_form = useForm<IBackUPInput>({
         initialValues: {
             period: "today",
@@ -25,8 +28,8 @@ export function useBackUp() {
         }
     })
 
-    async function backup(formData:FormData): Promise<boolean> {
-        
+    async function backup(formData: FormData): Promise<boolean> {
+
         setloading(true)
         try {
             const backup = await api.post("api/v1/backup/", formData, {
@@ -36,6 +39,7 @@ export function useBackUp() {
                 }
             })
             console.log(backup)
+            downloadFile(backup.data.data.download_url)
             backupSummary.loadSummary()
             setloading(false)
             return true
@@ -47,18 +51,77 @@ export function useBackUp() {
         }
     }
 
-    async function restore() {
-        await api.post("api/v1/backup/", backup_form.values, {
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
+    async function restore(file: File | any) {
+        setloading(true);
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            await api.post("api/v1/backup/restore/", formData, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+        } catch (error) {
+            console.error("Restore failed:", error);
+        } finally {
+            setloading(false);
         }
-        )
     }
+    async function deletBackupRecord(id: string) {
+        setloading(false)
+        try {
+            await api.delete(`api/v1/backup/${id}/`, {
+                headers:{
+                    Authorization:`Bearer ${access_token}`
+                }
+            })
+            backupSummary.loadSummary()
+            setloading(false)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setloading(false)
+        }
+    }
+    // Function to select a backup directory
+    async function selectBackupDirectory() {
+        const dirPath = await window.api.invoke("select-backup-directory")
+        if (dirPath) {
+            setBackupDir(dirPath)
+            localStorage.setItem("backup_dir", dirPath) // Save for future use
+        }
+    }
+    async function downloadFile(url: string) {
+        const date = new Date().toISOString().slice(0, 10)
+        const fileName = `backup${date}.json`;
+        const saveDir = localStorage.getItem("backup_dir");
+
+        if (!saveDir) {
+            alert("Please select a backup directory first.");
+            return;
+        }
+
+        const result = await window.api.invoke("download-file", { url, fileName, saveDir });
+
+        if (result.success) {
+            alert(`File downloaded to: ${result.filePath}`);
+        } else {
+            alert(`Download failed: ${result.error}`);
+        }
+    }
+
+
+
+
     return {
         backup_form,
         loading,
         backup,
-        restore
+        restore,
+        selectBackupDirectory,
+        backupDir,
+        deletBackupRecord
     }
 }

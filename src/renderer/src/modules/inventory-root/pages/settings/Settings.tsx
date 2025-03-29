@@ -6,8 +6,9 @@ import { ReactNode, useState } from "react"
 import UserManagement from "../../components/settings/UserManagement"
 import StoreManagement from "../../components/settings/StoreManagement"
 import Inventory from "../../components/settings/Inventory"
-import DataManagement from "../../components/settings/DataManagement"
+import BusinessManagement from "../../components/settings/DataManagement"
 import React from "react"
+import NotificationManagement from "../../components/settings/Business"
 
 const Settings = () => {
     const [selected, setSelected] = useState<string | null>("User")
@@ -24,7 +25,10 @@ const Settings = () => {
             selectedComponent = <Inventory />
             break
         case "Data":
-            selectedComponent = <DataManagement />
+            selectedComponent = <BusinessManagement />
+            break
+        case "Business":
+            selectedComponent = <NotificationManagement/>
             break
         default:
             selectedComponent = null

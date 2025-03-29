@@ -4,6 +4,7 @@ import classes from "./index.module.css"
 import { RiUserLine } from "react-icons/ri";
 import { IconType } from "react-icons/lib";
 import { MdDataset, MdNotifications, MdSettings, MdStore } from "react-icons/md";
+import { IoBusiness } from "react-icons/io5";
 
 interface cards {
     title: string;
@@ -26,10 +27,7 @@ const NavCard = observer(({ onSelect, selected }: props) => {
             title: "Inventory",
             icon: MdSettings
         },
-        {
-            title: "Notification",
-            icon: MdNotifications
-        },
+        
         {
             title: "Data",
             icon: MdDataset
@@ -37,6 +35,10 @@ const NavCard = observer(({ onSelect, selected }: props) => {
         {
             title: "Store",
             icon: MdStore
+        },
+        {
+            title: "Business",
+            icon: IoBusiness
         },
     ]
     const NavCards = data.map((Data, index) => (

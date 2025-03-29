@@ -1,14 +1,17 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+
 // const {PosPrinter} = require("electron-pos-printer");
+const axios = require("axios")
+const fs = require("fs")
 
 
 const escpos = require('escpos');
 escpos.USB = require('escpos-usb');
 const USB = escpos.USB;
- 
+
 
 
 
@@ -72,7 +75,7 @@ app.whenReady().then(() => {
 
 ipcMain.handle('print-receipt', async (_, data) => {
   try {
-    const device = new USB(); 
+    const device = new USB();
     const printer = new escpos.Printer(device);
 
     device.open(() => {
@@ -101,6 +104,72 @@ ipcMain.handle('print-receipt', async (_, data) => {
     return { success: false, error: error.message };
   }
 });
+ipcMain.handle("select-backup-directory", async () => {
+  const result = await dialog.showOpenDialog({
+    title: "Select Backup Directory",
+    properties: ["openDirectory"] // Allow only directory selection
+  })
+
+  return result.filePaths[0] || null // Return selected directory or null
+})
+
+ipcMain.handle("download-file", async (_, { url, fileName, saveDir }) => {
+  try {
+    const filePath = path.join(saveDir, fileName);
+
+    // Stream the file from the URL
+    const writer = fs.createWriteStream(filePath);
+
+    const response = await axios({
+      url,
+      method: "GET",
+      responseType: "stream",
+    });
+
+    response.data.pipe(writer);
+
+    return new Promise((resolve, reject) => {
+      writer.on("finish", () => resolve({ success: true, filePath }));
+      writer.on("error", (error) => reject({ success: false, error }));
+    });
+  } catch (error: any) {
+    console.error("Download error:", error);
+    return { success: false, error: error.message };
+  }
+});
+
+// ipcMain.handle("select-file", async () => {
+//   const result = await dialog.showOpenDialog({
+//     properties: ["openFile"],
+//   });
+
+//   return result.filePaths[0] || null;
+// });
+
+// ipcMain.handle("upload-file", async (event, { filePath }) => {
+//   const { access_token } = authManager.profile
+//   if (!filePath) {
+//     return { success: false, error: "No file selected." };
+//   }
+
+//   try {
+//     const fileData = fs.readFileSync(filePath);
+//     const formData = new FormData();
+//     formData.append("file", fileData, path.basename(filePath));
+
+//     const response = await api.post("api/v1/backup/", formData, {
+//       headers: {
+//         Authorization: `Bearer ${access_token}`,
+//         "Content-Type": "multipart/form-data"
+//       },
+//     });
+
+//     return { success: true, data: response.data };
+//   } catch (error) {
+//     console.error("Upload error:", error);
+//     return { success: false, error: error };
+//   }
+// });
 
 // ipcMain.handle('print-receipt', async (_, data) => {
 //   try {

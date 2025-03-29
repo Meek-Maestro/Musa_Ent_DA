@@ -6,39 +6,58 @@ import { useNavigate } from "react-router-dom"
 import StatsCard from "@renderer/ui/common/cards/dashboard/StatsCards"
 import { useSummary } from "@renderer/hooks/stats/useInventorySummary"
 import { ProductStore } from "@renderer/store/admin/stores"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import RecentSalesTable from "@renderer/ui/organisms/data-table/recent-sales/RecentSalesTable"
 import classes from "./index.module.css"
+import { storeSummary } from "@renderer/store/summary"
+
 
 const DashBoard = () => {
     const theme = useMantineTheme();
     const [selectedStoreindex, setSelectedStoreindex] = useState<number | null>(null);
     const [selectedStore, setSelectedStore] = useState<any>({})
-  
-    const { TotalProducts, TotalStock, LowStocks, OutOfStocks, loading, storeName, handleSelectStoreSummary } = useSummary();
+    const { loading, storeName, handleSelectStoreSummary } = useSummary();
+    const [loadingm, setLoading] = useState(true);
     const navigate = useNavigate();
+    const [summary, setsummary] = useState<any>({})
+
+    useEffect(() => {
+        setsummary(storeSummary.summary ? storeSummary.summary : null)
+    }, [storeSummary.summary])
 
     const handleSelectStore = (store: any) => {
-        console.log(store)
         setSelectedStore(store)
     }
+
     const handlePOSNavigate = () => {
-        if (!selectedStore) return alert("Select a store to continue")
-        if (storeName === "General Summary") return alert("Select a store to continue.")
-        navigate("/pos", {
-            state: JSON.stringify(selectedStore)
-        })
+        // if (!selectedStore) return alert("Select a store to continue")
+        // if (storeName === "General Summary") return alert("Select a store to continue.")
+        navigate("/pos"
+        //     {
+        //     state: JSON.stringify(selectedStore)
+        // }
+    )
         setSelectedStore({})
     }
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            await ProductStore.loadStores(); 
+            await storeSummary.loadSummary(); 
+            setsummary(storeSummary.summary || {});
+            setLoading(false);
+        }
+        fetchData();
+    }, []);
 
-
+   
     const miniStoreCards = ProductStore.stores.map((data, index) => (
         <UnstyledButton
             key={index}
             p="md"
             mb="lg"
             w="200px"
-            className={`${classes.card} ${selectedStoreindex === data.id  ? classes.selectedCard : "white"}`}
+            className={`${classes.card} ${selectedStoreindex === data.id ? classes.selectedCard : "white"}`}
             onClick={() => {
                 setSelectedStoreindex(data.id);
                 handleSelectStoreSummary(data.id, data.name);
@@ -67,28 +86,28 @@ const DashBoard = () => {
                 <Grid>
                     <Grid.Col span={{ md: 4 }}>
                         <StatsCard.StatsCardVert
-                            value={TotalProducts}
+                            value={summary?.total_products?.total}
                             label="Total Products"
                         // Icon={MdOutlineStoreMallDirectory}
                         />
                     </Grid.Col>
                     <Grid.Col span={{ md: 4 }}>
                         <StatsCard.StatsCardVert
-                            value={TotalStock}
+                            value={summary?.total_stock?.total}
                             label="Available Stock"
                         // Icon={MdOutlineStoreMallDirectory}
                         />
                     </Grid.Col>
                     <Grid.Col span={{ md: 4 }}>
                         <StatsCard.StatsCardVert
-                            value={LowStocks}
+                            value={summary?.low_stock?.total}
                             label="Low Products"
                         // Icon={MdOutlineStoreMallDirectory}
                         />
                     </Grid.Col>
                     <Grid.Col span={{ md: 4 }}>
                         <StatsCard.StatsCardVert
-                            value={OutOfStocks}
+                            value={summary?.out_of_stock?.total}
                             label="Out of Stock"
                         // Icon={MdOutlineStoreMallDirectory}+
                         />

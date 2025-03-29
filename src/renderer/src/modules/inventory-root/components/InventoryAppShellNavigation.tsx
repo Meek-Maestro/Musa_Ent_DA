@@ -3,8 +3,10 @@ import { observer } from "mobx-react";
 import { NavbarNested } from "../../../ui/organisms/navbar-nested/NavbarNested";
 import { InventoryPaths } from "../utils/navigation_builder";
 import { logoImg } from "../../../assets";
+import { authManager } from "@renderer/store/auth";
 
 export const InverntoryAppShellNavigation = observer(() => {
+    const {business_name} = authManager.profile
     return (
         <AppShell.Navbar>
             <NavbarNested links={InventoryPaths} header={<Group>
@@ -16,7 +18,7 @@ export const InverntoryAppShellNavigation = observer(() => {
                     }}
                 />
                 <Stack gap={0}>
-                    <Text fw={`bold`} c={`white`} size="xl">Musa Yaro</Text>
+                    <Text fw={`bold`} c={`white`} size="md">Musa Yaro</Text>
                     <Text c={`white`} size="sm">General Merchandise</Text>
                 </Stack>
             </Group>}

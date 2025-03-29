@@ -7,7 +7,7 @@ const LazyProducts = lazy(() => import("./pages/products/products"))
 const LazyStores = lazy(() => import("./pages/stores/Stores"))
 const LazySettings = lazy(() => import("./pages/settings/Settings"))
 const LazyAccounting = lazy(() => import("./pages/accounting/Accounting"))
-const LazyExpenses = lazy(() => import("./pages/expenses/Expenses"))
+const LazyExpenses = lazy(() => import("./pages/expenses/Purchases"))
 const LazyReports = lazy(() => import("./pages/reports/Reports"))
 const LazyPayments = lazy(() => import("./pages/payments/Expenses"))
 const LazyPurchases = lazy(() => import("./pages/expenses/purchases/AddPurchases"))
@@ -48,6 +48,6 @@ export default (
         <Route path="/purchases" element={<LazyPurchases />} />
         <Route path="/reports" element={<LazyReports />} />
         <Route path="/expenses" element={<LazyPayments />} />
-        <Route path="*" element={<Navigate to={`/`} />} />
+        <Route path="/*" element={<Navigate to={`/`} />} />
     </React.Fragment>
 )

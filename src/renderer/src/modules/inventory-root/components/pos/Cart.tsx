@@ -1,50 +1,50 @@
-import { ActionIcon, Box, Checkbox, Group, ScrollArea, Table, Text, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Box, Checkbox, Group, NumberInput, ScrollArea, Stack, Table, Text, Title, Tooltip } from "@mantine/core";
 import { observer } from "mobx-react";
-import { MdClear, MdClearAll, MdDelete, MdEdit } from "react-icons/md";
+import { MdClear, MdClearAll, MdClose, MdDelete, MdEdit } from "react-icons/md";
 import classes from "./table.module.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { cartController } from "@renderer/store/cart";
 
 interface cart {
     cartdetails: {
-        product_name: string
-        cost: number
-        quantity: number
-        total: number
+        "id": 0,
+        "product_name": string,
+        "cost_price": number,
+        "selling_price": number,
+        "discount": number,
+        "sku": string,
+        "quantity": number,
+        "quantity_alert": number,
+        "description": string,
+        "store": number,
+        "category": number,
     }[]
-    delete_action: (i: any) => void
-    // edit_action: (i: any) => void
-    clear_cart: () => void
+    delete_action: (id: number) => void
+}
+interface cartde {
+    "id": 0,
+    "product_name": string,
+    "cost_price": number,
+    "selling_price": number,
+    "discount": number,
+    "sku": string,
+    "quantity": number,
+    "quantity_alert": number,
+    "description": string,
+    "store": number,
+    "category": number,
 }
 
-export default observer(function Cart({ cartdetails, delete_action, clear_cart }: cart) {
-    const [selectedItem, setSelectedItem] = useState<number>()
+export default observer(function Cart() {
+    const [cart_products, setCartProducts] = useState<cartde[]>([])
+    useEffect(() => {
+        setCartProducts(cartController.products || [])
+    }, [cartController.products])
+
     return (
-        <Box bg={`white`} h={`50vh`} p={`md`} style={{ borderRadius: "20px" }} pos={`relative`}>
-            <Group justify="space-between">
-                <Title order={3}>Cart</Title>
-                <Group>
-                    <Tooltip label="Clear Cart">
-                        <ActionIcon variant="subtle" onClick={clear_cart}>
-                            <MdClearAll size={30} />
-                        </ActionIcon>
-                    </Tooltip>
-
-                    {/* <Tooltip label="Edit item">
-                        <ActionIcon variant="subtle">
-                            <MdEdit size={30} />
-                        </ActionIcon>
-                    </Tooltip> */}
-
-                    <Tooltip title="Delete Item" label="Delete item">
-                        <ActionIcon variant="subtle" c={`red`} onClick={() => delete_action(selectedItem)}>
-                            <MdDelete size={30} />
-                        </ActionIcon>
-                    </Tooltip>
-
-                </Group>
-            </Group>
+        <Box bg={`white`} h={`65vh`} p={`md`} style={{ borderRadius: "20px" }} pos={`relative`}>
             <Box>
-                <ScrollArea h={`39vh`}>
+                <ScrollArea h={`50vh`}>
                     <Table
                         striped
                         highlightOnHover
@@ -53,36 +53,52 @@ export default observer(function Cart({ cartdetails, delete_action, clear_cart }
                     >
                         <Table.Thead>
                             <Table.Tr>
-                                <Table.Th><Checkbox /></Table.Th>
-                                <Table.Th>Product Name </Table.Th>
+                                <Table.Th>
+                                    Product
+                                </Table.Th>
                                 <Table.Th>
                                     Quantity
                                 </Table.Th>
                                 <Table.Th>
-                                    Cost
+                                    Sub Total
                                 </Table.Th>
                                 <Table.Th>
-                                    Total
+                                    Discount
+                                </Table.Th>
+                                <Table.Th>
+                                    <MdClose fontWeight={700} size={20} color="black" />
                                 </Table.Th>
                             </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>
-                            {cartdetails?.map((item, index) => (
+                            {cart_products?.map((item, index) => (
                                 <Table.Tr key={index} className={classes.rowSpacing}>
-                                    <Table.Td>
-                                        <Checkbox onChange={() => setSelectedItem(index)} />
+                                    <Table.Td className={classes.cellSpacing}>
+                                        <Stack>
+                                            <Text size="sm">{item?.product_name}</Text>
+                                            <Text size="sm">{item?.sku}</Text>
+                                            <Text size="xs" c={`dimmed`}>{item.quantity} P(s) in stock</Text>
+                                        </Stack>
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
-                                        {item?.product_name}
+                                        <Stack>
+                                            <NumberInput w={`60px`} />
+                                        </Stack>
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
-                                        {item?.quantity}
+                                        <Text size="md">
+                                            ₦{item.selling_price}
+                                        </Text>
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
-                                        {item?.cost}
+                                        <Stack>
+                                            <NumberInput w={`100px`} />
+                                        </Stack>
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
-                                        {item?.total}
+                                        <ActionIcon onClick={() => cartController.deleteFromCart(item.id)} variant="subtle" c={`red`} bg={`red`} size={`md`}>
+                                            <MdClose fontWeight={600} color="white" size={20} />
+                                        </ActionIcon>
                                     </Table.Td>
                                 </Table.Tr>
                             ))}
@@ -90,10 +106,19 @@ export default observer(function Cart({ cartdetails, delete_action, clear_cart }
                     </Table>
                 </ScrollArea>
             </Box>
-            <Group justify="space-between" w={`90%`} pos={`absolute`} bottom={0} >
-                <Title order={3}> Grand Total</Title>
-                <Title order={3}>₦{cartdetails.reduce((arr, item) => arr + item.total, 0).toFixed(2)}</Title>
-            </Group>
+            <Box>
+                <Group justify="space-between" w={`90%`} pos={`absolute`} bottom={0} >
+                    <Stack>
+                        <Text size="md" fw={600}>Items: {cart_products.length}</Text>
+                    </Stack>
+                    <Stack>
+                        <Text size="md" fw={600}>
+                            Total: ₦{cart_products.reduce((total, item) => total + item.selling_price * item.quantity, 0).toFixed(2)}
+                        </Text>
+                    </Stack>
+                </Group>
+            </Box>
+
         </Box>
     )
 })

@@ -3,7 +3,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { authManager } from "./auth";
 
 class StoreManager {
-    summary: any = {}
+    summary: any = null
     constructor() {
         makeAutoObservable(this)
     }

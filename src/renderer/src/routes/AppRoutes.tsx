@@ -1,5 +1,5 @@
 import { Box, LoadingOverlay } from '@mantine/core';
-import { BrowserRouter, Routes, Route, Navigate, HashRouter, MemoryRouter, useNavigate } from 'react-router-dom';
+import { Routes, Route, HashRouter } from 'react-router-dom';
 import { createElement, Suspense, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { InverntoryAppShell } from '../modules/inventory-root/components/InventoryAppShell';
@@ -31,16 +31,12 @@ import EditCategory from '@renderer/ui/common/modals/edit-category/EditCategory'
 import { authManager } from '@renderer/store/auth';
 import { storeSummary } from '@renderer/store/summary';
 import { recentSalesSummary } from '@renderer/store/recent_sales';
-import TransferProducts from '@renderer/ui/common/modals/transfer-products/TransferProducts';
 import { expenseStore } from '@renderer/store/admin/expenses';
 import { backupSummary } from '@renderer/store/admin/backups';
-// import { ModalsProvider } from '@mantine/modals';
-
-// const modals = {};
 
 export const AppRoutes = observer(() => {
 
-
+console.log(authManager.profile)
   useEffect(() => {
     const loginTimestampKey = 'loginTimestamp';
     const logoutAfterMs = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -150,7 +146,7 @@ export const AppRoutes = observer(() => {
     render_editStore: (props: any) => <EditStoreModal {...props} />,
     render_addPurchase: AddPurchase,
     render_editCategory: (props: any) => <EditCategory {...props} />,
-   
+
   }
   // authManager.logout()
 

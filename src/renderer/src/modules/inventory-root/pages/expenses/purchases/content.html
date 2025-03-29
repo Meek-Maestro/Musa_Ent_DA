@@ -1,0 +1,118 @@
+<html>
+            <head>
+                <title>Purchase Receipt</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                        position: relative;
+                    }
+            
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+            
+                    th,
+                    td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                        text-align: left;
+                    }
+            
+                    th {
+                        background-color: #333;
+                        color: white;
+                    }
+            
+                    .header,
+                    .footer {
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+            
+                    /* Watermark styling */
+                    .watermark {
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        font-size: 50px;
+                        color: rgba(255, 0, 0, 0.1); /* Light gray and semi-transparent */
+                        z-index: -1; /* Ensure it stays behind the content */
+                        pointer-events: none; /* Prevent interaction */
+                        white-space: nowrap;
+                        rotate:-90deg;
+                        font-size:6rem;
+                    }
+                </style>
+            </head>
+            
+            <body>
+                <!-- Watermark -->
+                <div class="watermark">REPRINT</div>
+            
+                <div style="display: flex; gap:5px; justify-content:center; align-items:center;">
+                    <div style="width: 100px; height: 100px;">
+                         <img src="${logo}" width="100%" height="100%" style="border-radius: 50px;" />
+                    </div>
+                   <div style="display:flex; flex-direction: column; gap:0px; align-items:center;">
+                        <h1 style="margin: 0; font-size:25px; font-weight:bold;">Musa Yaro</h1>
+                        <div style=" margin: 0;">General Merchandise</div>
+                    </div>
+                </div>
+            
+                <div class="header">
+                    <h2>Purchase Receipt</h2>
+                    <p>Musa Yaro General Merchandise</p>
+                    <p>No 93 Sarki Street Jos Plateau State Nigeria</p>
+                    <p>Phone: 07030932204, 08188668855</p>
+                </div>
+                <hr>
+                <div style="display: flex; justify-content: space-between; width: 100%; border-bottom: 1px solid dashed;">
+                    <div>
+                        <p>Orderid: ${purchase.id}</p>
+                        <p>Order Date: ${purchase.purchase_date.slice(0, 10)}</p>
+                        <p>Supplier: ${purchase.supplier.supplier_name}</p>
+                    </div>
+                    <div>
+                        <p>Status: ${purchase.status}</p>
+                        <p>Arrival Date: ${purchase.arrival_date.slice(0, 10)}</p>
+                        <p>Supplier Contact: ${purchase.supplier.phone_number}</p>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product-name</th>
+                            <th>Discount</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${purchase.purchase_items.map(item => `
+                        <tr>
+                            <td>${item.product_name}</td>
+                            <td>${item.discount}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.unit_price}</td>
+                        </tr>
+                        `).join('')}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" style="text-align:right;"><strong>Total:</strong></td>
+                            <td>
+                                <strong>
+                                    ${purchase.purchase_items.reduce((total, item) => total + item.unit_price * item.quantity, 0).toFixed(2)}
+                                </strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="footer">
+                    <p>Thank you</p>
+                </div>
+            </body>
+            </html>

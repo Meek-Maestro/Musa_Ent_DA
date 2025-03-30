@@ -37,3 +37,28 @@ export interface SupplierAccounting {
     "amount_paid": number
     "received_by": string
 }
+
+export interface Products {
+    "id": number,
+    "product_name": string,
+    "cost_price": number,
+    "selling_price": number,
+    "discount": number,
+    "sku": string,
+    "quantity": number,
+    "quantity_alert": number,
+    "description": string,
+    "store": { id: number },
+    "category": number,
+    "updated_at": string,
+    "created_at": string
+}
+
+export interface CartDetails {
+    id: number
+    product: string;
+    sku:string
+    quantity: number;
+    subtotal: number
+    discount: number;
+}

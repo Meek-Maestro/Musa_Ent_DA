@@ -19,6 +19,7 @@ import { recentSalesSummary } from '@renderer/store/recent_sales';
 import { backupSummary } from '@renderer/store/admin/backups';
 import { expenseStore } from '@renderer/store/admin/expenses';
 import { TiTickOutline } from 'react-icons/ti';
+import { environmentLoader } from '@renderer/store/environment/loader';
 
 export const UserButton = observer(function UserButton() {
   const { username, role } = authManager.profile;
@@ -28,63 +29,6 @@ export const UserButton = observer(function UserButton() {
     authManager.logout();
     navigate("/")
   };
-
-  const handleReloadResources = async () => {
-    showNotification({
-      title: "Musa Enterprise",
-      message: "Loading Resources in the background",
-      color: "green",
-      position: "top-center",
-      style: { backgroundColor: "rgb(240, 253, 244)", padding: "20px" },
-      icon: createElement(TiTickOutline, { size: 20, color: 'rgb(240, 253, 244)' }),
-      styles: {
-        description: { color: "#276749", fontWeight: 500 },
-        title: { color: "#276749", fontWeight: 600 },
-      }
-    });
-
-    await Promise.all([
-      storeSummary.loadSummary(),
-      userStore.loadusers(),
-      customerStore.loadCustomers(),
-      SupplierStore.loadSuppliers(),
-      ProductStore.loadStores(),
-      ProductStore.loadStockReports(),
-      products.loadProducts(),
-      categoriesStore.loadCategories(),
-      purchaseStore.loadPurchases(),
-      recentSalesSummary.loadRecentSales(),
-      expenseStore.loadExpenses(),
-      backupSummary.loadSummary()
-    ])
-      .then(() => showNotification({
-        title: "Musa Enterprise",
-        message: "Resources Loaded successfully",
-        color: "green",
-        position: "top-center",
-        style: { backgroundColor: "rgb(240, 253, 244)", padding: "20px" },
-        icon: createElement(TiTickOutline, { size: 20, color: 'rgb(240, 253, 244)' }),
-        styles: {
-          description: { color: "#276749", fontWeight: 500 },
-          title: { color: "#276749", fontWeight: 600 },
-        }
-      }))
-      .catch(error => {
-        console.error("Resource Loading Error:", error);
-        showNotification({
-          title: "Error",
-          message: error.response?.data?.message || error?.message || "Failed to load resources",
-          color: "red",
-          position: "top-center",
-          style: { backgroundColor: "rgb(254, 242, 242)", padding: "20px" },
-          icon: createElement(MdClose, { size: 35, color: 'white' }),
-          styles: {
-            description: { color: "#FF0000", fontWeight: 500 },
-            title: { color: "#FF0000", fontWeight: 600 },
-          }
-        });
-      });
-  }
 
 
 
@@ -113,7 +57,7 @@ export const UserButton = observer(function UserButton() {
         <Menu.Item leftSection={<MdLogout size={14} />} onClick={handleLogout}>
           Logout
         </Menu.Item>
-        <Menu.Item leftSection={<IoReload size={14} />} onClick={handleReloadResources}>
+        <Menu.Item leftSection={<IoReload size={14} />} onClick={environmentLoader.loadBusinessResources}>
           Reload all Resource
         </Menu.Item>
         <Menu.Item leftSection={<IoSettings size={14} />}>

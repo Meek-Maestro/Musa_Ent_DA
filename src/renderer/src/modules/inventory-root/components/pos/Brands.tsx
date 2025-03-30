@@ -1,31 +1,110 @@
 import { products } from "@renderer/store/admin/products";
 import { observer } from "mobx-react";
 import { useEffect, useState } from "react";
-import { Card, Text, Group, Grid, Button, ScrollArea, Stack } from "@mantine/core";
+import { Card, Text, Group, Grid, Button, ScrollArea, Stack, Drawer, TextInput, Center, Title } from "@mantine/core";
 import { cartController } from "@renderer/store/cart";
+import { useDisclosure } from "@mantine/hooks";
+import { ProductStore } from "@renderer/store/admin/stores";
+import { MdStore } from "react-icons/md";
+import { BiFilter } from "react-icons/bi";
+import { CartDetails, Products } from "@renderer/interface";
+
+
+
 
 export default observer(function Brand() {
     const [products_, setProducts] = useState<any[]>([]);
+    const [storeName, setStore] = useState("");
+    const [searchQuery, setSearchQuery] = useState(""); // State for search query
+    const [opened, { open, close }] = useDisclosure(false);
 
     useEffect(() => {
         setProducts(products.products || []);
     }, [products.products]);
 
-    const handleSelect = (product: any) => {
+    
+
+    // Filter products based on store name and search query
+    const filteredProducts = products_.filter(
+        (product) =>
+            (storeName === "" || product?.store?.name === storeName) && // Show all products if storeName is empty
+            product.product_name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by search query
+    );
+
+    const handleSelect = (product: Products) => {
         const isSelected = cartController.products.some((p) => p.id === product.id);
         if (isSelected) {
-            cartController.deleteFromCart(product.id)
+            cartController.deleteFromCart(product.id);
         } else {
-            cartController.addToCart(product)
+            const productDetails: CartDetails = {
+                id: product.id,
+                product: product.product_name,
+                sku:product.sku,
+                quantity: 1,
+                subtotal: product.selling_price,
+                discount: product.discount,
+            }
+            cartController.addToCart(productDetails);
         }
     };
 
     return (
         <Stack>
-            <Button size="lg">Brands</Button>
+            <Button size="lg" onClick={open}>
+                {storeName === "" ? "General Stores" : storeName}
+            </Button>
+            <Drawer position="right" opened={opened} onClose={close} title="Stores">
+                <Center>
+                    <Button c={`dimmed`} variant="subtle" onClick={() => {
+                        setStore("")
+                        close()
+                    }}>
+                        Show all products
+                    </Button>
+                </Center>
+                <Group p={`md`}>
+                    <BiFilter size={30} />
+                    <Title order={3} ta={`center`}>Filter Products by store</Title>
+                </Group>
+
+                <Grid>
+                    {ProductStore.stores.map((data, index) => (
+                        <Grid.Col span={6} key={index}>
+                            <Card
+                                withBorder
+                                w={200}
+                                p={`lg`}
+                                onClick={() => {
+                                    setStore(data.name);
+                                    cartController.setStore(data.id)
+                                    close();
+                                }}
+                            >
+                                <Card.Section p={`md`}>
+                                    <Stack justify="center">
+                                        <MdStore size={50} />
+                                        <Text size="md" fw={600}>
+                                            {data.name}
+                                        </Text>
+                                    </Stack>
+                                </Card.Section>
+                            </Card>
+                        </Grid.Col>
+                    ))}
+                </Grid>
+            </Drawer>
+
+            {/* Search Input */}
+            <TextInput
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.currentTarget.value)}
+                mb="md"
+            />
+
             <ScrollArea h={500}>
                 <Grid w={`100%`} gutter={`xs`}>
-                    {products_.map((product, index) => {
+                    {filteredProducts.map((product, index) => {
                         const isSelected = cartController.products.some((p) => p.id === product.id);
                         return (
                             <Grid.Col span={4} key={index}>

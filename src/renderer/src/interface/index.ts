@@ -56,9 +56,10 @@ export interface Products {
 
 export interface CartDetails {
     id: number
-    product: string;
+    product_name: string;
     sku:string
+    description:string
     quantity: number;
-    subtotal: number
+    sub_total: number
     discount: number;
 }

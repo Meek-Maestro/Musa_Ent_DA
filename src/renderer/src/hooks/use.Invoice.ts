@@ -19,7 +19,7 @@ interface IInvoice {
     products: IProduct[];
     payment_method: string
     printed: boolean;
-    store:number
+    store: number
 }
 export function useInvoice() {
     const invoice_form = useForm<IInvoice>()
@@ -27,11 +27,12 @@ export function useInvoice() {
 
 
     async function createInvoice(): Promise<boolean> {
+        console.log(cartController.getValues())
         const { access_token } = authManager.profile
         setSubmiting(true)
-        
+
         try {
-            await api.post("api/v1/pos/", invoice_form.values, {
+            await api.post("api/v1/pos/", cartController.getValues(), {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }

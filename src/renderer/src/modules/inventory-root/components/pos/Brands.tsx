@@ -22,7 +22,7 @@ export default observer(function Brand() {
         setProducts(products.products || []);
     }, [products.products]);
 
-    
+
 
     // Filter products based on store name and search query
     const filteredProducts = products_.filter(
@@ -38,11 +38,12 @@ export default observer(function Brand() {
         } else {
             const productDetails: CartDetails = {
                 id: product.id,
-                product: product.product_name,
-                sku:product.sku,
+                product_name: product.product_name,
+                sku: product.sku,
                 quantity: 1,
-                subtotal: product.selling_price,
-                discount: product.discount,
+                description:"",
+                sub_total: parseInt(product.selling_price.toString(), 10),
+                discount: parseInt(product.discount.toString(), 0),
             }
             cartController.addToCart(productDetails);
         }

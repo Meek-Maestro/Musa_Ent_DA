@@ -21,7 +21,7 @@ export default observer(function Cart() {
     // Define the "Walk In Customer" object
     const walkInCustomer = {
         label: "Walk In Customer",
-        value: '0',
+        value: "0",
     };
 
     // Combine "Walk In Customer" with actual customers
@@ -34,7 +34,7 @@ export default observer(function Cart() {
         <Box bg={`white`} h={`65vh`} p={`md`} style={{ borderRadius: "20px" }} pos={`relative`}>
             {/* Customer Selection Dropdown */}
             <Select
-                defaultValue={walkInCustomer.value.toString()}
+                defaultValue={walkInCustomer?.value?.toString()}
                 data={combinedCustomers}
                 onChange={(value: any) => {
                     cartController.setCustomer(value);
@@ -60,7 +60,7 @@ export default observer(function Cart() {
                                 <Table.Tr key={index} className={classes.rowSpacing}>
                                     <Table.Td className={classes.cellSpacing}>
                                         <Stack>
-                                            <Text size="sm">{item?.product}</Text>
+                                            <Text size="sm">{item?.product_name}</Text>
                                             <Text size="sm">{item?.sku}</Text>
                                             <Text size="xs" c={`dimmed`}>
                                                 {item.quantity} P(s) in stock
@@ -73,7 +73,7 @@ export default observer(function Cart() {
                                         </Stack>
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
-                                        <Text size="md">₦{item.subtotal}</Text>
+                                        <Text size="md">₦{item.sub_total}</Text>
                                     </Table.Td>
                                     <Table.Td className={classes.cellSpacing}>
                                         <Stack>
@@ -108,7 +108,7 @@ export default observer(function Cart() {
                         <Text size="md" fw={600}>
                             Total: ₦
                             {cart_products
-                                .reduce((total, item) => total + item.subtotal * item.quantity, 0)
+                                .reduce((total, item) => total + item.sub_total * item.quantity, 0)
                                 .toFixed(2)}
                         </Text>
                     </Stack>

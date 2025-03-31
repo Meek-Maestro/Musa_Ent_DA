@@ -8,26 +8,34 @@ import { MdClose, MdCreditCard, } from "react-icons/md";
 import Brands from "../../components/pos/Brands";
 import { IoCash } from "react-icons/io5";
 import { FaClock } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ProductStore } from "@renderer/store/admin/stores";
 import { cartController } from "@renderer/store/cart";
+import { useReactToPrint } from "react-to-print";
+import POSPrint from "../../components/pos/PosPrint";
 
 
 const POS = observer(() => {
     const theme = useMantineTheme();
     const [store, setStore] = useState<any[]>([]);
-    const { createInvoice, invoice_form } = useInvoice();
+    const { createInvoice, invoice_form, submiting } = useInvoice();
+    const printRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setStore(ProductStore.stores || []);
     }, [ProductStore.stores]);
 
 
+    const handlePrint = useReactToPrint({ contentRef: printRef });
+
     return (
         <AppPageWrapper title={`POS`} right={<UserButton />}>
             <form
                 onSubmit={invoice_form.onSubmit(async () => {
-                    await createInvoice();
+                    if (await createInvoice()) {
+                        handlePrint()
+                        cartController.cancelTransaction()
+                    }
                 })}
             >
                 <Box>
@@ -68,12 +76,14 @@ const POS = observer(() => {
                                     onClick={() => {
                                         cartController.setPaymentMethod("cash");
                                     }}
+                                    loading={submiting && cartController.payment_method ==="cash"}
                                 >
                                     Cash
                                 </Button>
                                 <Button
                                     leftSection={<MdCreditCard size={20} />}
                                     type="submit"
+
                                     onClick={() => {
                                         cartController.setPaymentMethod("transfer");
                                     }}
@@ -88,9 +98,6 @@ const POS = observer(() => {
                                 >
                                     Cancel
                                 </Button>
-                                <Button type="submit">
-
-                                </Button>
                             </Group>
                             <Button radius={`xl`} leftSection={<FaClock />}>
                                 Recent Transaction
@@ -98,7 +105,9 @@ const POS = observer(() => {
                         </Group>
                     </Paper>
                 </Box>
-
+                <div style={{ display: "none" }}>
+                    <POSPrint ref={printRef} />
+                </div>
             </form>
         </AppPageWrapper>
     );

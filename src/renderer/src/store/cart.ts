@@ -6,7 +6,7 @@ class Cart {
         makeAutoObservable(this)
     }
     products: CartDetails[] = []
-    customer: number = 0
+    customer: number | string = 0
     payment_method: string = ""
     store: number = 0
 
@@ -30,7 +30,7 @@ class Cart {
             this.store = id
         })
     }
-    setCustomer(id: number ) {
+    setCustomer(id: number) {
         runInAction(() => {
             this.customer = id
         })
@@ -40,7 +40,7 @@ class Cart {
         return {
             store: this.store,
             payment_method: this.payment_method,
-            customer: this.customer,
+            customer: this.customer == 0 ? null : this.customer,
             products: toJS(this.products),
             note: "",
             printed: false,

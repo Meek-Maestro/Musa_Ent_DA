@@ -6,6 +6,7 @@ import { AppRoutes } from "../routes/AppRoutes";
 import { AppAuthRoutes } from "../routes/auth-routes/authRoutes";
 import { Notifications } from "@mantine/notifications";
 import { authManager } from "../store/auth";
+import BaseURLModal from "@renderer/ui/templates/BaseUrl";
 
 export default observer(function Main() {
     useEffect(() => {
@@ -17,6 +18,7 @@ export default observer(function Main() {
         <React.Fragment>
             <MantineProvider theme={mantineTheme} defaultColorScheme="light" forceColorScheme="light">
                 <Notifications />
+                <BaseURLModal/>
                 <App />
             </MantineProvider>
         </React.Fragment>

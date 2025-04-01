@@ -9,6 +9,7 @@ import '@mantine/nprogress/styles.css';
 import '@mantine/charts/styles.css';
 import "./App.css"
 import App from './modules/print';
+import BaseURLModal from './ui/templates/BaseUrl';
 
 
 

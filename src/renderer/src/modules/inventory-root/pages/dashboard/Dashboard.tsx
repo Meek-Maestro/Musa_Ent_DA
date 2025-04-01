@@ -51,7 +51,7 @@ const DashBoard = () => {
     }, []);
 
    
-    const miniStoreCards = ProductStore.stores.map((data, index) => (
+    const miniStoreCards = ProductStore?.stores?.map((data, index) => (
         <UnstyledButton
             key={index}
             p="md"

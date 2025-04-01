@@ -40,6 +40,7 @@ export default observer(function Brand() {
                 id: product.id,
                 product_name: product.product_name,
                 sku: product.sku,
+                cost:product.cost_price,
                 quantity: 1,
                 description:"",
                 sub_total: parseInt(product.selling_price.toString(), 10),

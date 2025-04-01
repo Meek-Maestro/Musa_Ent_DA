@@ -59,6 +59,7 @@ export interface CartDetails {
     product_name: string;
     sku:string
     description:string
+    cost:number
     quantity: number;
     sub_total: number
     discount: number;

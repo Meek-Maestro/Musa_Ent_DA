@@ -1,5 +1,6 @@
 import { LinksGroupProps } from '../../../interface';
 import { MdDashboard, MdHelp, MdLogout, MdReport, MdSettings, MdShoppingCart, MdStore } from 'react-icons/md';
+import {TbReportAnalytics} from "react-icons/tb"
 import { BiPurchaseTag } from "react-icons/bi";
 import { RiSurveyLine } from "react-icons/ri";
 import { GiExpense } from "react-icons/gi";
@@ -26,7 +27,7 @@ export const InventoryPaths: LinksGroupProps[] = [
         items: [
             { label: "Products", link: "/products", icon: MdShoppingCart },
             { label: "Suppliers/Customers", link: "/suppliers-customers", icon:  RiSurveyLine},
-            { label: "Reports", link: "/reports", icon: MdReport },
+            { label: "Reports", link: "/reports", icon: TbReportAnalytics },
             { label: "Purchase", link: "/purchase", icon: BiPurchaseTag },
             { label: "Accounting", link: "/accounting", icon: AiOutlineAccountBook },
             { label: "Expenses", link: "/expenses", icon: MdOutlinePayments }

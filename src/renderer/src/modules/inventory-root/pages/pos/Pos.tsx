@@ -13,6 +13,7 @@ import { ProductStore } from "@renderer/store/admin/stores";
 import { cartController } from "@renderer/store/cart";
 import { useReactToPrint } from "react-to-print";
 import POSPrint from "../../components/pos/PosPrint";
+import { BiLogoBlender } from "react-icons/bi";
 
 
 const POS = observer(() => {
@@ -76,7 +77,7 @@ const POS = observer(() => {
                                     onClick={() => {
                                         cartController.setPaymentMethod("cash");
                                     }}
-                                    loading={submiting && cartController.payment_method ==="cash"}
+                                    loading={submiting && cartController.payment_method === "cash"}
                                 >
                                     Cash
                                 </Button>
@@ -89,6 +90,15 @@ const POS = observer(() => {
                                     }}
                                 >
                                     Transfer
+                                </Button>
+                                <Button
+                                    leftSection={<BiLogoBlender size={20} />}
+                                    type="submit"
+                                    onClick={() => {
+                                        cartController.setPaymentMethod("credit");
+                                    }}
+                                >
+                                    Credit
                                 </Button>
                                 <Button
                                     type="submit"

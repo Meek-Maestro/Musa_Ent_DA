@@ -26,8 +26,8 @@ function StatsCardVert({
     <Paper shadow="sm" py={`sm`}>
       <Box p={'md'}>
         {/* <Icon color="light" size={32} /> */}
-        <Text size="sm">{label}</Text>
-        <Title>{value}</Title>
+        <Text size="sm" c={`dimmed`}>{label}</Text>
+        <Title order={2}>{value}</Title>
       </Box>
       {/* {caption == undefined ? null : (
         <React.Fragment>

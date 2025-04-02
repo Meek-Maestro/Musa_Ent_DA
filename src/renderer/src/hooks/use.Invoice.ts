@@ -1,6 +1,7 @@
 import { useForm } from "@mantine/form"
 import { api } from "@renderer/api/api";
 import RecentSales from "@renderer/modules/inventory-root/components/pos/RecentSales";
+import { reportsLoader } from "@renderer/store/admin/reports";
 import { authManager } from "@renderer/store/auth";
 import { cartController } from "@renderer/store/cart";
 import { recentSalesSummary } from "@renderer/store/recent_sales";
@@ -27,10 +28,8 @@ export function useInvoice() {
 
 
     async function createInvoice(): Promise<boolean> {
-        console.log(cartController.getValues())
         const { access_token } = authManager.profile
         setSubmiting(true)
-
         try {
             await api.post("api/v1/pos/", cartController.getValues(), {
                 headers: {
@@ -39,6 +38,7 @@ export function useInvoice() {
             })
             setSubmiting(false)
             await recentSalesSummary.loadRecentSales()
+            await reportsLoader.loadPOS()
             return true
         } catch (error) {
             console.log(error)
@@ -47,9 +47,6 @@ export function useInvoice() {
         } finally {
             setSubmiting(false)
         }
-
-        console.log(cartController.getValues())
-        return true
     }
 
 

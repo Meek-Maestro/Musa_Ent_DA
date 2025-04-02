@@ -57,10 +57,36 @@ export interface Products {
 export interface CartDetails {
     id: number
     product_name: string;
-    sku:string
-    description:string
-    cost:number
+    sku: string
+    description: string
+    cost: number
     quantity: number;
     sub_total: number
     discount: number;
+}
+
+export interface ReportPayload {
+    period: string
+    start_date: string
+    end_date: string
+}
+
+export interface POS_Report {
+    "pos":
+    {
+        "id": number,
+        "payment_method": string,
+        "note": string,
+        "products": CartDetails[],
+        "created_at": string,
+        "updated_at": string,
+        "printed": boolean,
+        "store": { id: number, name: string, store_keeper: object },
+        "customer": string
+    }[]
+    ,
+    "total_sales": number,
+    "customers": number,
+    "profit_margin": number,
+    "products_sold": number
 }

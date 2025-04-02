@@ -33,24 +33,24 @@ const DashBoard = () => {
         // if (!selectedStore) return alert("Select a store to continue")
         // if (storeName === "General Summary") return alert("Select a store to continue.")
         navigate("/pos"
-        //     {
-        //     state: JSON.stringify(selectedStore)
-        // }
-    )
+            //     {
+            //     state: JSON.stringify(selectedStore)
+            // }
+        )
         setSelectedStore({})
     }
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            await ProductStore.loadStores(); 
-            await storeSummary.loadSummary(); 
+            await ProductStore.loadStores();
+            await storeSummary.loadSummary();
             setsummary(storeSummary.summary || {});
             setLoading(false);
         }
         fetchData();
     }, []);
 
-   
+
     const miniStoreCards = ProductStore?.stores?.map((data, index) => (
         <UnstyledButton
             key={index}

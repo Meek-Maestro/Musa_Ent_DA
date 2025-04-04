@@ -28,6 +28,7 @@ export function useInvoice() {
 
 
     async function createInvoice(): Promise<boolean> {
+        
         const { access_token } = authManager.profile
         setSubmiting(true)
         try {

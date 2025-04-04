@@ -19,6 +19,8 @@ export default observer(function Financial_Report() {
     const [searchQuery, setSearchQuery] = useState(""); // State for search query
     const printRef = useRef<HTMLDivElement>(null);
 
+    console.log(pos)
+
     useEffect(() => {
         setPos(reportsLoader.Pos_reports || {});
     }, [reportsLoader.Pos_reports]);
@@ -142,7 +144,7 @@ export default observer(function Financial_Report() {
                         </Grid.Col>
                         <Grid.Col span={2}>
                             <StatsCard.StatsCardVert
-                                value={`₦${pos?.profit_margin.toString()}`}
+                                value={`%${pos?.profit_margin.toString()}`}
                                 label="Profit Margin"
                             />
                         </Grid.Col>
@@ -159,7 +161,7 @@ export default observer(function Financial_Report() {
                                 size="sm"
                                 style={{ marginLeft: "auto" }}
                                 variant="subtle"
-                                type="submit"
+                                type="submit" 
                                 c={`white`}
                                 fw={500}
                                 bg={theme.colors.blue[4]}
@@ -182,7 +184,6 @@ export default observer(function Financial_Report() {
                             <Table striped highlightOnHover className={classes.table}>
                                 <Table.Thead className={classes.stickyHeader}>
                                     <Table.Tr>
-                                        <Table.Th>ID</Table.Th>
                                         <Table.Th>Customer</Table.Th>
                                         <Table.Th>Store</Table.Th>
                                         <Table.Th>Payment Method</Table.Th>
@@ -197,7 +198,6 @@ export default observer(function Financial_Report() {
                                                 bg={theme.colors.blue[2]}
                                                 className={classes.rowSpacing}
                                             >
-                                                <Table.Td>{item.id}</Table.Td>
                                                 <Table.Td>
                                                     {item.customer
                                                         ? item.customer

@@ -7,6 +7,7 @@ import { AppAuthRoutes } from "../routes/auth-routes/authRoutes";
 import { Notifications } from "@mantine/notifications";
 import { authManager } from "../store/auth";
 import BaseURLModal from "@renderer/ui/templates/BaseUrl";
+import { cartController } from "@renderer/store/cart";
 
 export default observer(function Main() {
     useEffect(() => {
@@ -24,6 +25,7 @@ export default observer(function Main() {
         </React.Fragment>
     )
 })
+console.log(cartController.getValues())
 
 const App = observer(() => {
     if (authManager.status == "authenticated") {

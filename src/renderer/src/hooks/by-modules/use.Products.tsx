@@ -49,8 +49,6 @@ export function useProducts() {
         value && !isNaN(value) ? null : "Quantity must be a number",
       quantity_alert: (value) =>
         value && !isNaN(value) ? null : "Quantity alert must be a number",
-      description: (value) =>
-        value ? null : "Product description is required",
       store: (value) => (value ? null : "Select a store"),
       category: (value) => (value ? null : "Category is required"),
     },

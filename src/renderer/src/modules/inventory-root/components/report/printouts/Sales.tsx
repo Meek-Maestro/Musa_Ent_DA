@@ -3,11 +3,17 @@ import React, { forwardRef } from "react";
 const FinancialPrint = forwardRef<HTMLDivElement, { pos: any }>(({ pos }, ref) => {
   return (
     <div ref={ref} style={{ padding: "20px", fontSize: "14px", fontFamily: "Arial, sans-serif" }}>
+      {/* Summary Section */}
+      <div>
+        <p>Total Sales: ₦{pos?.total_sales}</p>
+        <p>Total Customers: {pos?.customers}</p>
+        <p>Profit Margin: {pos?.profit_margin}%</p>
+        <p>Products Sold: {pos?.products_sold}</p>
+      </div>
       <h2 style={{ textAlign: "center", marginBottom: "20px" }}>POS Report</h2>
-      <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "20px" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
-            <th style={headerStyle}>ID</th>
             <th style={headerStyle}>Customer</th>
             <th style={headerStyle}>Store</th>
             <th style={headerStyle}>Payment Method</th>
@@ -19,7 +25,6 @@ const FinancialPrint = forwardRef<HTMLDivElement, { pos: any }>(({ pos }, ref) =
             <React.Fragment key={index}>
               {/* Main Row */}
               <tr>
-                <td style={cellStyle}>{item.id}</td>
                 <td style={cellStyle}>{item.customer ? item.customer : "Walk In Customer"}</td>
                 <td style={cellStyle}>{item.store.name}</td>
                 <td style={cellStyle}>{item.payment_method}</td>
@@ -28,8 +33,8 @@ const FinancialPrint = forwardRef<HTMLDivElement, { pos: any }>(({ pos }, ref) =
 
               {/* Nested Table for Products */}
               <tr>
-                <td colSpan={5} style={{ padding: "10px 0" }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
+                <td colSpan={6}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", paddingLeft:"20px", paddingRight:"20px" }} >
                     <thead>
                       <tr>
                         <th style={nestedHeaderStyle}>Product Name</th>
@@ -64,13 +69,7 @@ const FinancialPrint = forwardRef<HTMLDivElement, { pos: any }>(({ pos }, ref) =
 
       <hr style={{ margin: "20px 0" }} />
 
-      {/* Summary Section */}
-      <div>
-        <p>Total Sales: ₦{pos?.total_sales}</p>
-        <p>Total Customers: {pos?.customers}</p>
-        <p>Profit Margin: {pos?.profit_margin}%</p>
-        <p>Products Sold: {pos?.products_sold}</p>
-      </div>
+      
     </div>
   );
 });

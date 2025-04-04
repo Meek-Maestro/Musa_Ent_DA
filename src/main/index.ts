@@ -81,6 +81,10 @@ ipcMain.handle('print-receipt', async (_, data) => {
     const printer = new escpos.Printer(device);
 
     device.open(() => {
+      const maxLineWidth = 42; // Adjust based on your printer (32, 42, or 48)
+      const colWidths = [22, 5, 10]; // Adjust based on width (Item, Qty, Subtotal)
+
+      // Print Header
       printer
         .font('a')
         .align('ct')
@@ -88,14 +92,47 @@ ipcMain.handle('print-receipt', async (_, data) => {
         .size(1, 1)
         .text('Musa Chukwu')
         .text('Receipt')
-        .text('------------------------')
+        .text('-'.repeat(maxLineWidth));
+
+      // Customer and Payment Info
+      printer
         .align('lt')
-        .text(`Item: ${data.item}`)
-        .text(`Price: $${data.price}`)
-        .text(`Qty: ${data.qty}`)
-        .text('------------------------')
-        .align('ct')
+        .size(0.5, 0.5)
+        .text(`Customer: ${data.customer || 'Walk-in Customer'}`)
+        .text(`Payment Method: ${data.payment_method}`)
+        .text(`Note: ${data.note ? data.note : "NIL"}`)
+        .text('-'.repeat(maxLineWidth));
+
+      // Print Table Header
+      const headers = ['Item', 'Qty', 'Subtotal'];
+      printer.text(formatRow(headers, colWidths, true));
+      printer.text('-'.repeat(maxLineWidth));
+
+      // Print Products
+      data.products.forEach((product: any) => {
+        const row = formatRow(
+          [product.product_name, product.quantity.toString(), `${product.sub_total}`],
+          colWidths
+        );
+        printer.text(row);
+      });
+
+      // Calculate Total
+      const total = data.products.reduce((sum: number, product: any) => sum + parseFloat(product.sub_total), 0);
+      
+      printer
+        .text('-'.repeat(maxLineWidth))
+        .text(` Total: NGN${total.toFixed(2)}`.padStart(maxLineWidth - 5, ' '))
+        .text('-'.repeat(maxLineWidth));
+
+      // Footer
+      printer
+        .align("ct")
+        .style("b")
+        .size(0.5, 0.5)
         .text('Thank you for your purchase!')
+        .text('')
+        .text('')
         .cut()
         .close();
     });
@@ -106,6 +143,15 @@ ipcMain.handle('print-receipt', async (_, data) => {
     return { success: false, error: error.message };
   }
 });
+
+/**
+ * Helper function to format table rows dynamically.
+ */
+function formatRow(columns: string[], colWidths: number[], isHeader = false): string {
+  return columns.map((col, i) => col.padEnd(colWidths[i], ' ')).join('');
+}
+
+
 
 ipcMain.handle('select-backup-directory', async () => {
   const result = await dialog.showOpenDialog({

@@ -28,13 +28,38 @@ const POS = observer(() => {
 
 
     const handlePrint = useReactToPrint({ contentRef: printRef });
+    const handlePrint2 = async () => {
+        if (!window.api) {
+            console.error("Electron IPC not available!");
+            return;
+        }
+
+        try {
+            //@ts-ignore
+            const result = await window.api.invoke('print-receipt', cartController.getValues());
+            if (result.success) {
+                alert('Receipt printed successfully!');
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        } catch (error) {
+            console.error('Printing error:', error);
+        }
+    };
+    function confirmPrint(){
+        if (window.confirm("Do you want to print the invoice?")) {
+            handlePrint2();
+        } else {
+            console.log("User canceled the print action.");
+        }
+    }
 
     return (
         <AppPageWrapper title={`POS`} right={<UserButton />}>
             <form
                 onSubmit={invoice_form.onSubmit(async () => {
                     if (await createInvoice()) {
-                        handlePrint()
+                        confirmPrint()
                         cartController.cancelTransaction()
                     }
                 })}

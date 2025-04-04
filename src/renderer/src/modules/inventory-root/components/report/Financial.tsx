@@ -25,6 +25,10 @@ export default observer(function Financial_Report() {
         setPos(reportsLoader.Pos_reports || {});
     }, [reportsLoader.Pos_reports]);
 
+    useEffect(()=>{
+        reportForm.setFieldValue("period", "today".toLocaleUpperCase())
+    },[])
+
     const handlePrint = useReactToPrint({ contentRef: printRef });
 
     // Filtered data based on search query
@@ -56,6 +60,7 @@ export default observer(function Financial_Report() {
                             "this_month".toUpperCase().replace("_", " "),
                             "week".toUpperCase(),
                             "full".toUpperCase(),
+                            "custom".toUpperCase(),
                         ]}
                         variant="filled"
                         styles={{

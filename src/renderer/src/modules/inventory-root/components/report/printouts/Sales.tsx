@@ -34,8 +34,8 @@ const FinancialPrint = forwardRef<HTMLDivElement, { pos: any }>(({ pos }, ref) =
               {/* Nested Table for Products */}
               <tr>
                 <td colSpan={6}>
-                  <table style={{ width: "100%", borderCollapse: "collapse", paddingLeft:"20px", paddingRight:"20px" }} >
-                    <thead>
+                  <table style={{ width: "100%", borderCollapse: "collapse", paddingLeft:"20px", paddingRight:"20px", marginBottom:"20px" }} >
+                    
                       <tr>
                         <th style={nestedHeaderStyle}>Product Name</th>
                         <th style={nestedHeaderStyle}>SKU</th>
@@ -44,7 +44,7 @@ const FinancialPrint = forwardRef<HTMLDivElement, { pos: any }>(({ pos }, ref) =
                         <th style={nestedHeaderStyle}>Quantity</th>
                         <th style={nestedHeaderStyle}>Subtotal</th>
                       </tr>
-                    </thead>
+                    
                     <tbody>
                       {item.products.map((product, productIndex) => (
                         <tr key={productIndex}>
@@ -66,10 +66,6 @@ const FinancialPrint = forwardRef<HTMLDivElement, { pos: any }>(({ pos }, ref) =
           ))}
         </tbody>
       </table>
-
-      <hr style={{ margin: "20px 0" }} />
-
-      
     </div>
   );
 });
@@ -78,7 +74,7 @@ const headerStyle = {
   border: "1px solid #ddd",
   padding: "8px",
   textAlign: "left" as const,
-  backgroundColor: "#f2f2f2",
+  backgroundColor: "",
   fontWeight: "bold",
 };
 
@@ -94,10 +90,13 @@ const nestedHeaderStyle = {
   backgroundColor: "#e6e6e6",
   fontWeight: "bold",
   fontSize: "12px",
+  borderBottom: "2px solid white",
 };
 
 const nestedCellStyle = {
-  border: "1px solid #ddd",
+  border: "none",
+  borderBottom:"1px solid #ddd",
+  marginBottom:"12px",
   padding: "6px",
   fontSize: "12px",
 };

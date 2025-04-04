@@ -43,6 +43,12 @@ class Reports {
         })
     }
     async loadByPayload(payload: ReportPayload) {
+
+        payload.period = payload.period.toLocaleLowerCase()
+        payload.start_date = payload.start_date.toLocaleLowerCase()
+        payload.end_date = payload.end_date.toLocaleLowerCase()
+
+        console.log("Payloaaaaaad: ", payload)
         const { access_token } = authManager.profile
         const { data: data } = await api.post("api/v1/report/pos_report/",
             payload,

@@ -114,7 +114,7 @@ const DashBoard = () => {
                     </Grid.Col>
                 </Grid>
 
-                <SimpleGrid cols={2} mt={`md`}>
+                <SimpleGrid cols={{md:2, base:1}} mt={`md`}>
                     <Paper h={`50vh`} p={`sm`}>
                         <Group justify="space-between">
                             <Text size="lg" c={`dimmed`}>Sales</Text>

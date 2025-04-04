@@ -60,8 +60,11 @@ const FinancialPrint = forwardRef<HTMLDivElement, { pos: any }>(({ pos }, ref) =
                       ))}
                     </tbody>
                   </table>
+
+                  <hr />
                 </td>
               </tr>
+             
             </React.Fragment>
           ))}
         </tbody>
@@ -95,7 +98,7 @@ const nestedHeaderStyle = {
 
 const nestedCellStyle = {
   border: "none",
-  borderBottom:"1px solid #ddd",
+  // borderBottom:"1px solid #ddd",
   marginBottom:"12px",
   padding: "6px",
   fontSize: "12px",

@@ -9,18 +9,37 @@
         body {
             display: flex;
             justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             background-color: #282c34;
             color: white;
             font-family: Arial, sans-serif;
             font-size: 24px;
+            overflow: hidden;
         }
     </style>
 </head>
 
 <body>
     <div>New Age Technology</div>
+    <progress id="progress" value="0" max="100" style="width: 70%; height: 20px; margin-top: 20px;"></progress>
+
+    <script>
+        let progress = document.getElementById('progress');
+        let value = 0;
+
+        function updateProgress() {
+            if (value < 100) {
+                value += 1;
+                progress.value = value;
+                setTimeout(updateProgress, 50); 
+            } else {
+                window.location.href = 'index.html'; 
+            }
+        }
+        updateProgress();
+    </script>
 </body>
 
 </html>

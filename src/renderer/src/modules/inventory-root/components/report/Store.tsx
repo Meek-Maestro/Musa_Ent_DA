@@ -1,14 +1,16 @@
 import { Group, useMantineTheme, ActionIcon, Table, ScrollArea, Stack, Badge, Divider, Space, Text, Select, Center, Loader, Button, Title } from "@mantine/core";
 import { reportsLoader } from "@renderer/store/admin/reports";
 import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
-import { MdArrowBack, MdFilter } from "react-icons/md";
+import React, { useEffect, useRef, useState } from "react";
+import { MdArrowBack, MdFilter, MdPrint } from "react-icons/md";
 import classes from "./table.module.css"
 import { storeReport } from "@renderer/interface";
 import StatsCard from "@renderer/ui/common/cards/dashboard/StatsCards";
 import { BiFilter } from "react-icons/bi";
 import { ProductStore } from "@renderer/store/admin/stores";
 import { reportPayload } from "@renderer/hooks/stats/useReportPayload";
+import { StockReportPrint } from "./printouts/StockReport";
+import { useReactToPrint } from "react-to-print";
 interface props {
     close: () => void
 }
@@ -17,9 +19,12 @@ export default observer(function StoreReport({ close }: props) {
     const { loadStoreReportByPayload, loading } = reportPayload()
     const theme = useMantineTheme()
     const [store, setStore] = useState<storeReport[]>([])
+    const printRef = useRef<HTMLDivElement>(null)
+    const handlePrint = useReactToPrint({ contentRef: printRef });
     useEffect(() => {
         setStore(reportsLoader.store || [])
     }, [reportsLoader.store])
+
     function loadDynamiChips(level: string) {
         if (level == "Low") return <Badge color="red" variant="filled">{level}</Badge>
         if (level == "High") return <Badge defaultChecked color="green" variant="filled">{level}</Badge>
@@ -34,24 +39,39 @@ export default observer(function StoreReport({ close }: props) {
                     </ActionIcon>
                 </Group>
                 <Title order={2}>Store Report</Title>
-                <center>
+
+                <Group>
                     <Group>
                         <Text>Filter Store by name</Text>
-                        <Select 
-                            defaultValue={`All Stores`} 
-                            data={["All Stores", ...ProductStore.stores.map((data) => data.name)]} 
+                        <Select
+                            defaultValue={`All Stores`}
+                            data={["All Stores", ...ProductStore.stores.map((data) => data.name)]}
                             onChange={(value) => {
                                 if (value && value !== "All Stores") {
                                     loadStoreReportByPayload(value);
                                 } else {
                                     loadStoreReportByPayload("");
                                 }
-                            }} 
-                            leftSection={<BiFilter size={20} />} 
-                            w={`200px`} 
+                            }}
+                            leftSection={<BiFilter size={20} />}
+                            w={`200px`}
                         />
                     </Group>
-                </center>
+                    <Button
+                        size="sm"
+                        style={{ marginLeft: "auto" }}
+                        variant="subtle"
+                        type="submit"
+                        c={`white`}
+                        fw={500}
+                        bg={theme.colors.blue[4]}
+                        leftSection={<MdPrint size={20} />}
+                        onClick={() => handlePrint()}
+                    >
+                        Print
+                    </Button>
+                </Group>
+
                 <Divider />
                 <Stack w={`30%`}>
                     <StatsCard.StatsCardVert
@@ -191,7 +211,10 @@ export default observer(function StoreReport({ close }: props) {
                         </Table>
                     </ScrollArea>
                 )}
-
+                {/* Hidden Printable Component */}
+                <div style={{ display: "none" }}>
+                    <StockReportPrint ref={printRef} store={store} />
+                </div>
             </Stack>
         </>
     )

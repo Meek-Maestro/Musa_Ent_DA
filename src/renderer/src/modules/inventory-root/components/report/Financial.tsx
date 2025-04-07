@@ -1,4 +1,4 @@
-import { Button, Grid, Group, ScrollArea, Select, Stack, Table, TextInput, useMantineTheme, Text, Divider, Progress, RingProgress, Center, Loader, Title, Box } from "@mantine/core";
+import { Button, Grid, Group, ScrollArea, Select, Stack, Table, TextInput, useMantineTheme, Text, Divider, Progress, RingProgress, Center, Loader, Title, Box, ActionIcon } from "@mantine/core";
 import { POS_Report } from "@renderer/interface";
 import { reportsLoader } from "@renderer/store/admin/reports";
 import StatsCard from "@renderer/ui/common/cards/dashboard/StatsCards";
@@ -6,13 +6,13 @@ import classes from "./table.module.css"
 import { observer } from "mobx-react";
 import { useEffect, useRef, useState } from "react";
 import { reportPayload } from "@renderer/hooks/stats/useReportPayload";
-import { MdPrint } from "react-icons/md";
+import { MdArrowBack, MdPrint } from "react-icons/md";
 import { useReactToPrint } from "react-to-print";
 import FinancialPrint from "./printouts/Sales";
 import React from "react";
 
-export default observer(function Financial_Report() {
-    const { reportForm, loadReportByPayload, loading } = reportPayload();
+export default observer(function Financial_Report({ close }: { close: () => void }) {
+    const { reportForm, loadPOSReportByPayload, loading } = reportPayload();
     const { start_date, end_date } = reportsLoader;
     const theme = useMantineTheme();
     const [pos, setPos] = useState<POS_Report | null>(null);
@@ -25,9 +25,9 @@ export default observer(function Financial_Report() {
         setPos(reportsLoader.Pos_reports || {});
     }, [reportsLoader.Pos_reports]);
 
-    useEffect(()=>{
+    useEffect(() => {
         reportForm.setFieldValue("period", "today".toLocaleUpperCase())
-    },[])
+    }, [])
 
     const handlePrint = useReactToPrint({ contentRef: printRef });
 
@@ -44,9 +44,14 @@ export default observer(function Financial_Report() {
 
     return (
         <Stack>
+            <Group>
+                <ActionIcon size={`lg`} radius={`xl`} variant="subtle" bg={`inherit`} c={`gray`} onClick={close} bd={`2px solid`}>
+                    <MdArrowBack size={40} fontWeight={600}/>
+                </ActionIcon>
+            </Group>
             <form
                 onSubmit={reportForm.onSubmit(async () => {
-                    await loadReportByPayload();
+                    await loadPOSReportByPayload();
                 })}
             >
                 <Group gap={`sm`} align="center">
@@ -166,7 +171,7 @@ export default observer(function Financial_Report() {
                                 size="sm"
                                 style={{ marginLeft: "auto" }}
                                 variant="subtle"
-                                type="submit" 
+                                type="submit"
                                 c={`white`}
                                 fw={500}
                                 bg={theme.colors.blue[4]}

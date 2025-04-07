@@ -13,10 +13,10 @@ export function reportPayload() {
             start_date: date
         }
     })
-    async function loadReportByPayload(): Promise<boolean> {
+    async function loadPOSReportByPayload(): Promise<boolean> {
         setLoading(true)
         try {
-            await reportsLoader.loadByPayload(reportForm.values)
+            await reportsLoader.loadPOSByPayload(reportForm.values)
             return true
         } catch (error) {
             console.log(error)
@@ -25,5 +25,38 @@ export function reportPayload() {
             setLoading(false)
         }
     }
-    return { reportForm, loadReportByPayload, loading }
+    async function loadPurchaseReportByPayload(): Promise<boolean> {
+        setLoading(true)
+        try {
+            await reportsLoader.loadPurchasesPayload(reportForm.values)
+            console.log(true)
+            return true
+        } catch (error) {
+            console.log(error)
+            return false
+        } finally {
+            setLoading(false)
+        }
+    }
+    async function loadStoreReportByPayload(name:string): Promise<boolean> {
+        setLoading(true)
+        try {
+            await reportsLoader.loadStore({name})
+            console.log(true)
+            return true
+        } catch (error) {
+            console.log(error)
+            return false
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return {
+        reportForm,
+        loadPOSReportByPayload,
+        loadPurchaseReportByPayload,
+        loadStoreReportByPayload,
+        loading
+    }
 }

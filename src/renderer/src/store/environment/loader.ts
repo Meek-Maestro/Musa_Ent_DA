@@ -16,7 +16,7 @@ import { userStore } from "../admin/users";
 import { recentSalesSummary } from "../recent_sales";
 import { storeSummary } from "../summary";
 import { reportsLoader } from "../admin/reports";
-import { reportPayload } from "@renderer/hooks/stats/useReportPayload";
+
 
 class EnvironmentLoader {
   constructor() {
@@ -52,7 +52,9 @@ class EnvironmentLoader {
       backupSummary.loadSummary(),
       accounting.loadCustomerAccounting(),
       accounting.loadSupplierAccounting(),
-      reportsLoader.loadPOS()
+      reportsLoader.loadPOS(),
+      reportsLoader.loadPurchases(),
+      reportsLoader.loadStore({name:""})
     ])
       .then(() => showNotification({
         title: "Musa Enterprise",

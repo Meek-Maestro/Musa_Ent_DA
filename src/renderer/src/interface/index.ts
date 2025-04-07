@@ -90,3 +90,78 @@ export interface POS_Report {
     "profit_margin": number,
     "products_sold": number
 }
+
+export interface report_nav {
+    "purchase": string
+    "pos": string
+    "customer": string
+    "supplier": string
+    "expense": string
+    "backup": string
+    "store_transfer": string
+    "customer_report": string
+    "categories": string
+    "store": string
+}
+
+export interface Purchase {
+    "id": string,
+    "purchase_items":
+    {
+        "product_name": string,
+        "unit_price": number,
+        "quantity": number,
+        "discount": number,
+        "total": number
+    }[]
+    "damage_items": {
+        "product_name": string
+        "unit_price": number
+        "quantity": number
+        "discount": number
+        "total": number
+    }[],
+    "purchase_gen_id": string,
+    "status": string,
+    "purchase_date": string,
+    "arrival_date": string
+    "created_at": string
+    "updated_at": string,
+    "supplier_name": string
+    "supplier_address": string,
+    "supplier_contact": string
+    "payment_terms": string
+    "purchase_items_total": string
+    "damage_items_total": string
+    "note_for_supplier": string
+    "attachment": null,
+    "notes": null,
+    "print_type": string,
+    "purchase_print_logs_date": string
+    "purchase_order": number
+}
+
+export interface storeReport {
+    "id": string,
+    "name": string
+    "store_keeper": string
+    "location": string
+    "stock_report": {
+        "store_name": string,
+        "total_products": number,
+        "stock_level": string,
+        "id": number
+    },
+    "products": {
+        "id": number,
+        "product_name": string,
+        "quantity": number,
+        "quantity_alert": number,
+        "selling_price": number
+        "cost_price": number
+        "discount": number
+        "sku": string
+        "description": string
+    }[]
+
+}

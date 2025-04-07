@@ -1,15 +1,15 @@
 import { api } from "@renderer/api/api";
 import { makeAutoObservable, runInAction } from "mobx";
 import { authManager } from "../auth";
-import { POS_Report, ReportPayload } from "@renderer/interface";
+import { POS_Report, Purchase, ReportPayload, storeReport } from "@renderer/interface";
 
 class Reports {
 
-    //Report query
+    //Report payload
     period: "today" | "this_week" | "this_month" | "week" | "full" = "today"
     start_date = new Date().toISOString().slice(0, 10)
     end_date = new Date().toISOString().slice(0, 10)
-    //Report query
+    //Report payload
 
     Pos_reports: POS_Report = {
         pos: [],
@@ -18,6 +18,10 @@ class Reports {
         profit_margin: 0,
         products_sold: 0
     }
+
+    purchase: Purchase[] = []
+
+    store: storeReport[] = []
 
     constructor() {
         makeAutoObservable(this)
@@ -42,13 +46,13 @@ class Reports {
             this.Pos_reports = data.data
         })
     }
-    async loadByPayload(payload: ReportPayload) {
+
+    async loadPOSByPayload(payload: ReportPayload) {
 
         payload.period = payload.period.toLocaleLowerCase()
         payload.start_date = payload.start_date.toLocaleLowerCase()
         payload.end_date = payload.end_date.toLocaleLowerCase()
 
-        console.log("Payloaaaaaad: ", payload)
         const { access_token } = authManager.profile
         const { data: data } = await api.post("api/v1/report/pos_report/",
             payload,
@@ -62,6 +66,64 @@ class Reports {
 
         runInAction(() => {
             this.Pos_reports = data.data
+        })
+    }
+
+    async loadPurchases() {
+        const { access_token } = authManager.profile
+        const { data: data } = await api.post("api/v1/report/purchase_report/",
+            {
+                period: this.period,
+                start_date: this.start_date,
+                end_date: this.end_date
+            }, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            },
+            //@ts-ignore
+            silent: true
+        })
+
+        runInAction(() => {
+            this.purchase = data.data
+        })
+    }
+
+    async loadPurchasesPayload(payload: ReportPayload) {
+        payload.period = payload.period.toLocaleLowerCase()
+        payload.start_date = payload.start_date.toLocaleLowerCase()
+        payload.end_date = payload.end_date.toLocaleLowerCase()
+
+        const { access_token } = authManager.profile
+        const { data: data } = await api.post("api/v1/report/purchase_report/",
+            payload, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            },
+            //@ts-ignore
+            silent: true
+        })
+
+        runInAction(() => {
+            this.purchase = data.data
+        })
+    }
+
+    async loadStore({ name }: { name: string }) {
+        console.log(name)
+        const { access_token } = authManager.profile
+        const { data: data } = await api.post("api/v1/report/store_report/",
+           {name},
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                },
+                //@ts-ignore
+                silent: true
+            })
+
+        runInAction(() => {
+            this.store = data.data
         })
     }
 

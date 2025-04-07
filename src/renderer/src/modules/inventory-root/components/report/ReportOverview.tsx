@@ -8,7 +8,6 @@ import { IconType } from "react-icons";
 import { GiBackup } from "react-icons/gi";
 import { AiTwotoneCustomerService } from "react-icons/ai";
 import { FaStore } from "react-icons/fa6";
-import { purchaseStore } from "@renderer/store/admin/purchase";
 import { reportsLoader } from "@renderer/store/admin/reports";
 
 interface cards {
@@ -78,11 +77,8 @@ export default observer(function OverView({ onselect }: cardProps) {
         <>
             {data.state === "pos" && (
                 <Group>
-                    <Badge bg={`teal`} opacity={0.6} p={`sm`}>
-                            Products Sold: {reportsLoader.Pos_reports.products_sold}
-                    </Badge>
-                    <Badge bg={`teal`} opacity={0.6} p={`sm`}>
-                            Profit Margin: {reportsLoader.Pos_reports.profit_margin}
+                    <Badge bg={theme.colors.gray[4]} p={`sm`}>
+                        Sold: +{reportsLoader.Pos_reports.products_sold}
                     </Badge>
                 </Group>
             )}
@@ -99,7 +95,7 @@ export default observer(function OverView({ onselect }: cardProps) {
                     <Grid.Col span={4}>
                         <Paper withBorder shadow="sm">
                             <UnstyledButton w={`100%`}
-                                bg={theme.colors.gray[3]} key={index} p="xl"
+                                key={index} p="xl"
                                 display={`grid`}
                                 style={{
                                     alignItems: "center", gap: 10, "&hover": {
@@ -107,9 +103,17 @@ export default observer(function OverView({ onselect }: cardProps) {
                                         cursor: "pointer"
                                     }
                                 }} onClick={() => onselect?.(data.state)}>
+                               
                                 <Group>
                                     {data.icon && <data.icon size={30} color={theme.colors.gray[9]} />}
                                     <Text size="md" fw={600}>{data.title}</Text>
+                                    {data.state === "pos" && (
+                                    <>
+                                        <Badge ml={`auto`} bg={theme.colors.green[2]} p={`sm`}>
+                                            <Text size="sm" c={theme.colors.green[7]}>+%{reportsLoader.Pos_reports.profit_margin}</Text>
+                                        </Badge>
+                                    </>
+                                )}
                                 </Group>
                                 {renderDynamicBadges(data)}
                             </UnstyledButton>

@@ -40,9 +40,9 @@ export default observer(function Brand() {
                 id: product.id,
                 product_name: product.product_name,
                 sku: product.sku,
-                cost:product.cost_price,
+                cost: product.cost_price,
                 quantity: 1,
-                description:"",
+                description: "",
                 sub_total: parseInt(product.selling_price.toString(), 10),
                 discount: parseInt(product.discount.toString(), 0),
             }
@@ -126,7 +126,7 @@ export default observer(function Brand() {
                                         <Text c="dimmed" ta={`center`} size="sm">
                                             {product.selling_price ? `₦${product.selling_price}` : "Price not available"}
                                         </Text>
-                                        <Text size="xs" c={`dimmed`}>
+                                        <Text size="xs" c={product.quantity > 0 ? `dimmed` : `red`}>
                                             {product.quantity} P(s) in stock
                                         </Text>
                                     </Group>

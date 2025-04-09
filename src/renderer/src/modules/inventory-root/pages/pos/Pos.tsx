@@ -14,9 +14,11 @@ import { cartController } from "@renderer/store/cart";
 import { useReactToPrint } from "react-to-print";
 import POSPrint from "../../components/pos/PosPrint";
 import { BiLogoBlender } from "react-icons/bi";
+import { useRecentTransactions } from "@renderer/hooks/by-modules/use.RecentTransactions";
 
 
 const POS = observer(() => {
+    const {startopenRecentOperation} = useRecentTransactions()
     const theme = useMantineTheme();
     const [store, setStore] = useState<any[]>([]);
     const { createInvoice, invoice_form, submiting } = useInvoice();
@@ -134,7 +136,7 @@ const POS = observer(() => {
                                     Cancel
                                 </Button>
                             </Group>
-                            <Button radius={`xl`} leftSection={<FaClock />}>
+                            <Button radius={`xl`} leftSection={<FaClock />} onClick={startopenRecentOperation}>
                                 Recent Transaction
                             </Button>
                         </Group>

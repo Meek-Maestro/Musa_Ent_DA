@@ -163,5 +163,122 @@ export interface storeReport {
         "sku": string
         "description": string
     }[]
+}
 
+export interface CustomerAccounting {
+    "id": string,
+    "customer_name": string
+    "phone_number": string
+    "bank_name": string
+    "bank_account_number": string
+    "balance": number
+    "address": string
+    "status": string
+    "credit_limit": number
+    "created_at": string
+    "updated_at": string
+    "accounting": {
+        "id": string,
+        "payment_date": string
+        "payment_method": string
+        "memo": string
+        "amount_paid": number
+        "received_by": string
+        "created_at": string
+        "updated_at": string
+    }[]
+}
+
+export interface SupplierAccounting {
+    "id": number,
+    "supplier_name": string
+    "phone_number": string
+    "bank_name": string
+    "bank_account_number": string
+    "balance": number
+    "address": string
+    "status": string
+    "credit_limit": number
+    "created_at": string
+    "updated_at": string
+    "accounting":
+    {
+        "id": number,
+        "payment_date": string
+        "payment_method": string
+        "memo": string
+        "amount_paid": string
+        "received_by": string
+        "created_at": string
+        "updated_at": string
+    }[]
+
+}
+
+export interface CustomerReport {
+    "id": number,
+    "customer_name": string
+    "phone_number": string
+    "bank_name": string
+    "bank_account_number": string
+    "balance": string
+    "address": string
+    "status": string
+    "credit_limit": string
+    "created_at": string
+    "updated_at": string
+}
+
+export interface SupplierReport {
+    "id": number,
+    "supplier_name": string
+    "phone_number": string
+    "bank_name": string
+    "bank_account_number": string
+    "balance": number
+    "address": string
+    "status": string
+    "credit_limit": number
+    "created_at": string
+    "updated_at": string
+}
+
+export interface ExpenseReport {
+    "expenses":
+    {
+        "id": number,
+        "name": string
+        "category": string
+        "amount": number
+        "notes": string
+        "date": string
+        "printed": boolean,
+        "created_at": string
+        "updated_at": string
+    }[]
+    "total_amount": number
+}
+
+export interface StoreTransferReport {
+    "id": number,
+    "from_store": number,
+    "to_store": number,
+    "products":
+    {
+        "id": number,
+        "sku": string
+        "category": number,
+        "discount": number
+        "quantity": number
+        "cost_price": number
+        "description": string
+        "product_name": string
+        "selling_price": number
+        "quantity_alert": number
+    }[]
+
+    "quantity": number,
+    "transfer_date": string
+    "created_at": string
+    "updated_at": string
 }

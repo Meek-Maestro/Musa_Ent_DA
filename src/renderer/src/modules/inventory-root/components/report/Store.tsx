@@ -2,7 +2,7 @@ import { Group, useMantineTheme, ActionIcon, Table, ScrollArea, Stack, Badge, Di
 import { reportsLoader } from "@renderer/store/admin/reports";
 import { observer } from "mobx-react";
 import React, { useEffect, useRef, useState } from "react";
-import { MdArrowBack, MdFilter, MdPrint } from "react-icons/md";
+import { MdArrowBack, MdPrint } from "react-icons/md";
 import classes from "./table.module.css"
 import { storeReport } from "@renderer/interface";
 import StatsCard from "@renderer/ui/common/cards/dashboard/StatsCards";

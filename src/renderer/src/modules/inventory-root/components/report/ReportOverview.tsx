@@ -33,14 +33,24 @@ export default observer(function OverView({ onselect }: cardProps) {
             state: "purchase"
         },
         {
-            title: "Customer Account",
+            title: "Customer",
             icon: GiBackup,
             state: "customer"
+        },
+        {
+            title: "Customer Accounting",
+            icon: GiBackup,
+            state: "customer_accounting"
         },
         {
             title: "Supplier",
             icon: MdPerson,
             state: "supplier"
+        },
+        {
+            title: "Supplier Accounting",
+            icon: MdPerson,
+            state: "supplier_accounting"
         },
         {
             title: "Expense",
@@ -73,6 +83,7 @@ export default observer(function OverView({ onselect }: cardProps) {
             state: "store"
         },
     ]
+
     const renderDynamicBadges = (data: cards) => (
         <>
             {data.state === "pos" && (
@@ -85,7 +96,6 @@ export default observer(function OverView({ onselect }: cardProps) {
             {data.state === "purchase" && (
                 <>Purchase{reportsLoader.purchase}</>
             )}
-
         </>
     )
     return (

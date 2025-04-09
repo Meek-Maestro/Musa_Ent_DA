@@ -3,7 +3,7 @@ import { api } from "../../api/api";
 import { authManager } from "../auth";
 
 class CustomerStore {
-    customers: any = []
+    customers: any[] = []
     constructor() {
         makeAutoObservable(this)
     }

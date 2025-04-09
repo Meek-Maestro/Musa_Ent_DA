@@ -7,6 +7,12 @@ import { reportsLoader } from "@renderer/store/admin/reports";
 import Financial from "../../components/report/Financial";
 import Purchase from "../../components/report/Purchase";
 import Store from "../../components/report/Store";
+import CustomerAccounting from "../../components/report/CustomerAccounting";
+import SupplierAccounting from "../../components/report/SupplierAccounting";
+import Customer from "../../components/report/Customer";
+import Suppliers from "../../components/report/Suppliers";
+import Expenses from "../../components/report/Expenses";
+import StoreTransfer from "../../components/report/StoreTransfer";
 
 
 const Reports = () => {
@@ -31,7 +37,12 @@ const Reports = () => {
                 {activeTab === "pos" && <Financial close={handleBack} />}
                 {activeTab === "purchase" && <Purchase close={handleBack}/>}
                 {activeTab === "store" && <Store close={handleBack}/>}
-                {activeTab === "customer" && <Text>Customer Report Content</Text>}
+                {activeTab === "customer_accounting" && <CustomerAccounting close={handleBack}/>}
+                {activeTab === "supplier_accounting" && <SupplierAccounting close={handleBack}/>}
+                {activeTab === "customer" && <Customer close={handleBack}/>}
+                {activeTab === "supplier" && <Suppliers close={handleBack}/>}
+                {activeTab === "expense" && <Expenses close={handleBack}/>}
+                {activeTab === "store_transfer" && <StoreTransfer close={handleBack}/>}
                 
             </Box>
         </AppPageWrapper>

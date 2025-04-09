@@ -54,7 +54,12 @@ class EnvironmentLoader {
       accounting.loadSupplierAccounting(),
       reportsLoader.loadPOS(),
       reportsLoader.loadPurchases(),
-      reportsLoader.loadStore({name:""})
+      reportsLoader.loadStore({ name: "" }),
+      reportsLoader.loadCustomerAccounting(),
+      reportsLoader.loadSuppliersAccounting(),
+      reportsLoader.loadCustomers(),
+      reportsLoader.loadSuppliers(),
+      reportsLoader.loadExpenses()
     ])
       .then(() => showNotification({
         title: "Musa Enterprise",

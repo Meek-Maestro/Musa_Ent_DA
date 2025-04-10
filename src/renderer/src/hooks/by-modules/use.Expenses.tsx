@@ -3,6 +3,8 @@ import { api } from "@renderer/api/api"
 import { expenseStore } from "@renderer/store/admin/expenses"
 import { authManager } from "@renderer/store/auth"
 import { useState } from "react"
+import { Text } from "@mantine/core"
+import { modals } from "@mantine/modals"
 
 interface IexpenseInput {
     "amount": number,
@@ -28,8 +30,21 @@ export function useExpenses() {
     })
     const [submiting, setSubmitting] = useState<boolean>(false)
 
+    function startAddExpenseOperation() {
+        modals.openContextModal({
+          modal: "render_addExpense",
+          title: <Text size="xl" fw={700}>Add new expense</Text>,
+          fullScreen: false,
+          centered: true,
+          size: "md",
+          padding: "md",
+          innerProps: {
+          }
+        })
+      }
+
     async function saveExpense() {
-        setSubmitting(false)
+        setSubmitting(true)
         try {
             await api.post("api/v1/expense/", expense_form.values, {
                 headers: {
@@ -83,6 +98,7 @@ export function useExpenses() {
         submiting,
         saveExpense,
         updateExpense,
-        deleteExpense
+        deleteExpense,
+        startAddExpenseOperation
     }
 }

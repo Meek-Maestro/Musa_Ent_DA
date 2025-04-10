@@ -15,10 +15,12 @@ import { useReactToPrint } from "react-to-print";
 import POSPrint from "../../components/pos/PosPrint";
 import { BiLogoBlender } from "react-icons/bi";
 import { useRecentTransactions } from "@renderer/hooks/by-modules/use.RecentTransactions";
+import { useExpenses } from "@renderer/hooks/by-modules/use.Expenses";
 
 
 const POS = observer(() => {
     const {startopenRecentOperation} = useRecentTransactions()
+    const {startAddExpenseOperation} = useExpenses()
     const theme = useMantineTheme();
     const [store, setStore] = useState<any[]>([]);
     const { createInvoice, invoice_form, submiting } = useInvoice();
@@ -79,7 +81,7 @@ const POS = observer(() => {
                                     }))}
                                 />
                             </Group>
-                            <Button>Add Expense</Button>
+                            <Button onClick={startAddExpenseOperation}>Add Expense</Button>
                         </Group>
                     </Paper>
                     <Grid mt={`md`}>

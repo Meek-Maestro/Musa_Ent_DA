@@ -24,6 +24,7 @@ import AddCustomer_A from '@renderer/ui/common/modals/add-customer_A/AddCustomer
 import EditCustomer_A from '@renderer/ui/common/modals/edit-customers_A/EditCustomers_A';
 import AddSupplier_A from '@renderer/ui/common/modals/add-supplier_A/AddSupplier_A';
 import RecentSales from '@renderer/ui/common/modals/recent-sales/RecentSales';
+import AddExpense from '@renderer/ui/common/modals/add-expense/AddExpense';
 
 export const AppRoutes = observer(() => {
   useEffect(() => {
@@ -82,7 +83,8 @@ export const AppRoutes = observer(() => {
     render_addCustomer_A: AddCustomer_A,
     render_editCustomer_A: (props: any) => <EditCustomer_A {...props} />,
     render_addSupplier_A: AddSupplier_A,
-    render_recentTransaction: RecentSales
+    render_recentTransaction: RecentSales,
+    render_addExpense: AddExpense
   }
   // authManager.logout()
 

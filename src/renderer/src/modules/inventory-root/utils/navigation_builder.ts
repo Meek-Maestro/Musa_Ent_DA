@@ -3,7 +3,6 @@ import { MdDashboard, MdHelp, MdLogout, MdReport, MdSettings, MdShoppingCart, Md
 import {TbReportAnalytics} from "react-icons/tb"
 import { BiPurchaseTag } from "react-icons/bi";
 import { RiSurveyLine } from "react-icons/ri";
-import { GiExpense } from "react-icons/gi";
 import { AiOutlineAccountBook } from "react-icons/ai";
 import { MdOutlinePayments } from "react-icons/md";
 
@@ -37,7 +36,7 @@ export const InventoryPaths: LinksGroupProps[] = [
         title:"Settings",
         items:[
             { label: "Settings", link: "/settings", icon: MdSettings },
-            { label: "Help", link: "/", icon: MdHelp },
+            // { label: "Help", link: "/", icon: MdHelp },
         ]
     }
 ];

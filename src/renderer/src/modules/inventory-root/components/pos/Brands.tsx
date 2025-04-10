@@ -1,7 +1,7 @@
 import { products } from "@renderer/store/admin/products";
 import { observer } from "mobx-react";
 import { useEffect, useState } from "react";
-import { Card, Text, Group, Grid, Button, ScrollArea, Stack, Drawer, TextInput, Center, Title } from "@mantine/core";
+import { Card, Text, Group, Grid, Button, ScrollArea, Stack, Drawer, TextInput, Center, Title, Overlay, Box } from "@mantine/core";
 import { cartController } from "@renderer/store/cart";
 import { useDisclosure } from "@mantine/hooks";
 import { ProductStore } from "@renderer/store/admin/stores";
@@ -53,7 +53,7 @@ export default observer(function Brand() {
     return (
         <Stack>
             <Button size="lg" onClick={open}>
-                {storeName === "" ? "General Stores" : storeName}
+                {storeName === "" ? "Select Store" : storeName}
             </Button>
             <Drawer position="right" opened={opened} onClose={close} title="Stores">
                 <Center>
@@ -68,7 +68,6 @@ export default observer(function Brand() {
                     <BiFilter size={30} />
                     <Title order={3} ta={`center`}>Filter Products by store</Title>
                 </Group>
-
                 <Grid>
                     {ProductStore.stores.map((data, index) => (
                         <Grid.Col span={6} key={index}>
@@ -95,7 +94,15 @@ export default observer(function Brand() {
                     ))}
                 </Grid>
             </Drawer>
-
+            {storeName === "" && (
+                <Box>
+                    <Center>
+                        <Text size="sm" fw={600} c={`dimmed`}>
+                            Select a store to filter products and make purchase.
+                        </Text>
+                    </Center>
+                </Box>
+            )}
             {/* Search Input */}
             <TextInput
                 placeholder="Search products..."
@@ -105,6 +112,7 @@ export default observer(function Brand() {
             />
 
             <ScrollArea h={400}>
+
                 <Grid w={`100%`} gutter={`xs`}>
                     {filteredProducts.map((product, index) => {
                         const isSelected = cartController.products.some((p) => p.id === product.id);
@@ -119,7 +127,7 @@ export default observer(function Brand() {
                                         backgroundColor: isSelected ? "#d1e7dd" : "white",
                                         border: isSelected ? "2px solid #0f5132" : "1px solid #ddd",
                                     }}
-                                    onClick={() => handleSelect(product)}
+                                    onClick={() => { storeName === "" ? null : handleSelect(product) }}
                                 >
                                     <Group justify="center" mt="md" mb="xs">
                                         <Text fw={500}>{product.product_name}</Text>

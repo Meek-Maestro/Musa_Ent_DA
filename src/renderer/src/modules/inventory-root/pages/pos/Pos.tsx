@@ -1,10 +1,10 @@
-import { Box, Button, Group, Text, Select, Paper, Grid, useMantineTheme } from "@mantine/core";
+import { Box, Button, Group, Text, Select, Paper, Grid, useMantineTheme, ActionIcon } from "@mantine/core";
 import { observer } from "mobx-react";
 import AppPageWrapper from "../../../../ui/common/AppPageWrapper";
 import { UserButton } from "../../../../ui/common/user-button/User-button";
 import Cart from "../../components/pos/Cart";
 import { useInvoice } from "@renderer/hooks/use.Invoice";
-import { MdClose, MdCreditCard, } from "react-icons/md";
+import { MdArrowBack, MdClose, MdCreditCard, } from "react-icons/md";
 import Brands from "../../components/pos/Brands";
 import { IoCash } from "react-icons/io5";
 import { FaClock } from "react-icons/fa6";
@@ -16,15 +16,17 @@ import POSPrint from "../../components/pos/PosPrint";
 import { BiLogoBlender } from "react-icons/bi";
 import { useRecentTransactions } from "@renderer/hooks/by-modules/use.RecentTransactions";
 import { useExpenses } from "@renderer/hooks/by-modules/use.Expenses";
+import { useNavigate } from "react-router-dom";
 
 
 const POS = observer(() => {
-    const {startopenRecentOperation} = useRecentTransactions()
-    const {startAddExpenseOperation} = useExpenses()
+    const { startopenRecentOperation } = useRecentTransactions()
+    const { startAddExpenseOperation } = useExpenses()
     const theme = useMantineTheme();
     const [store, setStore] = useState<any[]>([]);
     const { createInvoice, invoice_form, submiting } = useInvoice();
     const printRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate()
 
     useEffect(() => {
         setStore(ProductStore.stores || []);
@@ -50,7 +52,7 @@ const POS = observer(() => {
             console.error('Printing error:', error);
         }
     };
-    function confirmPrint(){
+    function confirmPrint() {
         if (window.confirm("Do you want to print the invoice?")) {
             handlePrint2();
         } else {
@@ -60,6 +62,11 @@ const POS = observer(() => {
 
     return (
         <AppPageWrapper title={`POS`} right={<UserButton />}>
+            <Group mb={`sm`}>
+                <ActionIcon size={`lg`} radius={`xl`} variant="subtle" bg={`inherit`} c={`gray`} onClick={()=>navigate("/")} bd={`2px solid`}>
+                    <MdArrowBack size={40} fontWeight={600} />
+                </ActionIcon>
+            </Group>
             <form
                 onSubmit={invoice_form.onSubmit(async () => {
                     if (await createInvoice()) {
@@ -106,6 +113,7 @@ const POS = observer(() => {
                                     onClick={() => {
                                         cartController.setPaymentMethod("cash");
                                     }}
+                                    disabled={submiting && cartController.payment_method !== "cash"}
                                     loading={submiting && cartController.payment_method === "cash"}
                                 >
                                     Cash
@@ -113,7 +121,8 @@ const POS = observer(() => {
                                 <Button
                                     leftSection={<MdCreditCard size={20} />}
                                     type="submit"
-
+                                    disabled={submiting && cartController.payment_method !== "transfer"}
+                                    loading={submiting && cartController.payment_method === "transfer"}
                                     onClick={() => {
                                         cartController.setPaymentMethod("transfer");
                                     }}
@@ -122,6 +131,8 @@ const POS = observer(() => {
                                 </Button>
                                 <Button
                                     leftSection={<BiLogoBlender size={20} />}
+                                    disabled={submiting && cartController.payment_method !== "credit"}
+                                    loading={submiting && cartController.payment_method === "credit"}
                                     type="submit"
                                     onClick={() => {
                                         cartController.setPaymentMethod("credit");

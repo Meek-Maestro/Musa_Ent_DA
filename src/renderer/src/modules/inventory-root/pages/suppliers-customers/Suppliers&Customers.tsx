@@ -120,7 +120,7 @@ const Suppliers_Customers = observer(() => {
                                 <MdRefresh size={30} />
                             </ActionIcon>
                             <Badge p={`sm`}>
-                                <Text size={`sm`}>{customerStore.customers.length} Customers</Text>
+                                <Text size={`sm`}>{customerStore.customers.length} Customers {customerStore.customers.length > 1 ? "s":""}</Text>
                             </Badge>
                         </Group>
                     )}
@@ -132,7 +132,7 @@ const Suppliers_Customers = observer(() => {
                                 <MdRefresh size={30} />
                             </ActionIcon>
                             <Badge p={`sm`}>
-                                <Text size={`sm`}>{SupplierStore.suppliers.length} Supplier(s)</Text>
+                                <Text size={`sm`}>{SupplierStore.suppliers.length} Supplier{SupplierStore.suppliers.length > 1 ? "s":""}</Text>
                             </Badge>
                         </Group>
                     )}

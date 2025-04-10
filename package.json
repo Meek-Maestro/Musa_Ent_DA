@@ -67,12 +67,12 @@
     "@vitejs/plugin-react": "^4.3.4",
     "css-loader": "^7.1.2",
     "electron": "^34.2.0",
-    "electron-builder": "^24.6.0",
     "electron-vite": "^3.0.0",
     "eslint": "^9.20.1",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "electron-builder": "^26.0.12",
     "prettier": "^3.5.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -81,9 +81,60 @@
     "vite": "^6.1.0"
   },
   "build": {
-    "asar": true,
+    "appId": "com.electron.app",
+    "productName": "myapp",
+    "directories": {
+      "buildResources": "build"
+    },
+    "files": [
+      "!**/.vscode/*",
+      "!src/*",
+      "!electron.vite.config.{js,ts,mjs,cjs}",
+      "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}",
+      "!{.env,.env.*,.npmrc,pnpm-lock.yaml}",
+      "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+    ],
     "win": {
-      "publisherName": "Musa Yaro Ent"
+      "executableName": "myapp"
+    },
+    "nsis": {
+      "artifactName": "${name}-${version}-setup.${ext}",
+      "shortcutName": "${productName}",
+      "uninstallDisplayName": "${productName}",
+      "createDesktopShortcut": "always"
+    },
+    "mac": {
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "NSCameraUsageDescription": "Application requests access to the device's camera.",
+        "NSMicrophoneUsageDescription": "Application requests access to the device's microphone.",
+        "NSDocumentsFolderUsageDescription": "Application requests access to the user's Documents folder.",
+        "NSDownloadsFolderUsageDescription": "Application requests access to the user's Downloads folder."
+      },
+      "notarize": false
+    },
+    "dmg": {
+      "artifactName": "${name}-${version}.${ext}"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "snap",
+        "deb"
+      ],
+      "maintainer": "electronjs.org",
+      "category": "Utility"
+    },
+    "appImage": {
+      "artifactName": "${name}-${version}.${ext}"
+    },
+    "npmRebuild": false,
+    "publish": {
+      "provider": "generic",
+      "url": "https://example.com/auto-updates"
+    },
+    "electronDownload": {
+      "mirror": "https://npmmirror.com/mirrors/electron/"
     }
   }
 }

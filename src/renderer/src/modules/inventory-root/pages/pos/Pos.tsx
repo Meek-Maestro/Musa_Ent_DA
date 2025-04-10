@@ -69,6 +69,10 @@ const POS = observer(() => {
             </Group>
             <form
                 onSubmit={invoice_form.onSubmit(async () => {
+                    if (cartController.products.length === 0) {
+                        alert("No products in the cart");
+                        return;
+                    }
                     if (await createInvoice()) {
                         confirmPrint()
                         cartController.cancelTransaction()

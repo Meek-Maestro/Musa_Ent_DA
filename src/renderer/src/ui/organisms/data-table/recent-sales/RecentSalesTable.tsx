@@ -28,6 +28,8 @@ export default observer(function RecentSalesTable({ onselect, }: props) {
         }
     };
 
+    console.log(recentSales)
+
 
 
     return (
@@ -38,13 +40,12 @@ export default observer(function RecentSalesTable({ onselect, }: props) {
                     <Table.Th>Customer Name</Table.Th>
                     <Table.Th>Products</Table.Th>
                     <Table.Th>Total Price</Table.Th>
-                    <Table.Th>Actions</Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody className={classes.scrollableBody}>
                 {recentSales.map((item, index) => (
                     <Table.Tr key={index} className={classes.rowSpacing}>
-                        <Table.Td>{item.customer_fullname}</Table.Td>
+                        <Table.Td>{item?.customer?.customer_name ? item?.customer?.customer_name:"Walk in customer"}</Table.Td>
                         <Table.Td>
                             {item.products.length > 1 ? (
                                 <Text>
@@ -58,11 +59,6 @@ export default observer(function RecentSalesTable({ onselect, }: props) {
                             <Text>
                                 ₦{item.products.reduce((total, product) => total + product.cost * product.quantity, 0).toFixed(2)}
                             </Text>
-                        </Table.Td>
-                        <Table.Td>
-                            <Button size="sm" variant="subtle" c={theme.colors.blue[5]}>
-                                view
-                            </Button>
                         </Table.Td>
                     </Table.Tr>
                 ))}

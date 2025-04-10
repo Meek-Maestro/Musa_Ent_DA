@@ -50,6 +50,7 @@ body {
   @mixin hover {
     color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-0));
   }
+  
 }
 
 .chevron {

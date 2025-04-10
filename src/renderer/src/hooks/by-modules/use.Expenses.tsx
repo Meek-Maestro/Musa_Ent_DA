@@ -64,7 +64,7 @@ export function useExpenses() {
     async function deleteExpense(id: number) {
         setSubmitting(false)
         try {
-            await api.delete(`api/v1/expense/${id}`, {
+            await api.delete(`api/v1/expense/${id}/`, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }

@@ -120,6 +120,17 @@ export function useSupplier() {
               return false
             }
     }
+    async function ReloadSuppliers(){
+        setSubmiting(true)
+        try {
+            await SupplierStore.loadSuppliers()
+            setSubmiting(false)
+            return true
+        } catch (error) {
+            setSubmiting(false)
+            throw error
+        }
+    } 
 
     return {
         startAddSupplierOperation,
@@ -128,6 +139,7 @@ export function useSupplier() {
         submiting,
         saveSupplier,
         deleteSupplier,
-        updateSupplier
+        updateSupplier,
+        ReloadSuppliers
     }
 }

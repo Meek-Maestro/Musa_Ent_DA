@@ -57,26 +57,26 @@ export default observer(function OverView({ onselect }: cardProps) {
             icon: SiExpensify,
             state: "expense"
         },
-        {
-            title: "Backup",
-            icon: MdBackup,
-            state: "backup"
-        },
+        // {
+        //     title: "Backup",
+        //     icon: MdBackup,
+        //     state: "backup"
+        // },
         {
             title: "Store Transfer",
             icon: BiTransfer,
             state: "store_transfer"
         },
-        {
-            title: "Customer Report",
-            icon: AiTwotoneCustomerService,
-            state: "customer_report"
-        },
-        {
-            title: "Categories",
-            icon: MdCategory,
-            state: "categories"
-        },
+        // {
+        //     title: "Customer Report",
+        //     icon: AiTwotoneCustomerService,
+        //     state: "customer_report"
+        // },
+        // {
+        //     title: "Categories",
+        //     icon: MdCategory,
+        //     state: "categories"
+        // },
         {
             title: "Store",
             icon: FaStore,
@@ -93,9 +93,6 @@ export default observer(function OverView({ onselect }: cardProps) {
                     </Badge>
                 </Group>
             )}
-            {data.state === "purchase" && (
-                <>Purchase{reportsLoader.purchase}</>
-            )}
         </>
     )
     return (
@@ -103,7 +100,7 @@ export default observer(function OverView({ onselect }: cardProps) {
             <Grid>
                 {over_view_data.map((data, index) => (
                     <Grid.Col span={4}>
-                        <Paper withBorder shadow="sm">
+                        <Paper withBorder shadow="sm" h={120}>
                             <UnstyledButton w={`100%`}
                                 key={index} p="xl"
                                 display={`grid`}

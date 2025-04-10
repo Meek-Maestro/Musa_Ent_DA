@@ -104,7 +104,7 @@ export default observer(function Brand() {
                 mb="md"
             />
 
-            <ScrollArea h={500}>
+            <ScrollArea h={400}>
                 <Grid w={`100%`} gutter={`xs`}>
                     {filteredProducts.map((product, index) => {
                         const isSelected = cartController.products.some((p) => p.id === product.id);

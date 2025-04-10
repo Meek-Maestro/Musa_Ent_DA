@@ -5,7 +5,6 @@ import { MdArrowRight, MdClearAll } from "react-icons/md"
 import ExpenseTable from "@renderer/ui/organisms/data-table/expense-table/ExpenseTable"
 import { useExpenses } from "@renderer/hooks/by-modules/use.Expenses"
 import { useState } from "react"
-import { defaultColors } from "@renderer/ui/constants/constants"
 
 
 const Payments = () => {

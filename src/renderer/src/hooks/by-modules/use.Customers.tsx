@@ -120,12 +120,23 @@ export function useCustomerOperations() {
       return false
     }
   }
+  async function ReloadCustomers() {
+    setSubmiting(true)
+    try {
+      await customerStore.loadCustomers()
+    } catch (error) {
+      console.log(error)
+    }finally{
+      setSubmiting(false)
+    }
+  }
   return {
     saveCustomer,
     updateCustomer,
     deleteCustomer,
     startAddCustomerOperation,
     startEditCustomerOperation,
+    ReloadCustomers,
     customer_form,
     submiting,
 

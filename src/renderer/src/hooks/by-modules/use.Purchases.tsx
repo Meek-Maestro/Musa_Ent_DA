@@ -121,7 +121,6 @@ export function usePurchase() {
       }
     } else {
       return false
-      console.log(purchase_form.validate().hasErrors);
     }
   }
 
@@ -141,6 +140,17 @@ export function usePurchase() {
       setSubmitting(false);
     }
   }
+  async function ReloadPurchases(){
+    setSubmitting(true)
+    try {
+      await purchaseStore.loadPurchases()
+      setSubmitting(false)
+      return true
+    } catch (error) {
+      setSubmitting(false)
+      throw error
+    }
+  }
 
   return {
     purchase_form,
@@ -148,5 +158,6 @@ export function usePurchase() {
     addPurchase,
     updatePurchase,
     deletePurchase,
+    ReloadPurchases
   };
 }

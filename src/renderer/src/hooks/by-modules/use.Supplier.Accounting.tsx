@@ -134,12 +134,25 @@ export function useSupplierA_Operations() {
             return false
         }
     }
+    async function ReloadSuppliers() {
+        setSubmiting(true)
+        try {
+            await SupplierStore.loadSuppliers()
+            setSubmiting(false)
+            return true
+        } catch (error) {
+            setSubmiting(false)
+            throw error
+        }
+        
+    }
     return {
         createSupplierAccounting,
         updateSupplierA,
         deleteCustomer,
         startAddSupplier_AOperation,
         startEditSupplier_AOperation,
+        ReloadSuppliers,
         supplier_form,
         submiting,
 

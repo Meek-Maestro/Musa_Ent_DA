@@ -1,43 +1,61 @@
 import { observer } from "mobx-react";
-import { Checkbox, Table, ScrollArea } from "@mantine/core";
+import { Checkbox, Table, ScrollArea, Group, TextInput } from "@mantine/core";
 import classes from "./table.module.css";
 import { useEffect, useState } from "react";
 import { SupplierStore } from "../../../../store/admin/suppliers";
+import { MdSearch } from "react-icons/md";
 
-interface props{
-  onselect:(data:any)=> void
+interface props {
+  onselect: (data: any) => void;
 }
 
-export default observer(function SupplersDataTable({onselect}:props) {
-  const [suppliers, setSuppliers] = useState<any[]>([])
-  const [selectedSupplier, setSelectedSupplier] = useState<any>(null)
-  useEffect(() => {
-    setSuppliers(SupplierStore.suppliers)
-  }, [SupplierStore.suppliers])
+export default observer(function SuppliersDataTable({ onselect }: props) {
+  const [suppliers, setSuppliers] = useState<any[]>([]); // Filtered suppliers
+  const [selectedSupplier, setSelectedSupplier] = useState<any>(null);
 
-  const handleSelectSupplier = (customer: any, isChecked: boolean) => {
+  useEffect(() => {
+    setSuppliers(SupplierStore.suppliers || []); // Initialize with all suppliers
+  }, [SupplierStore.suppliers]);
+
+  // Function to handle checkbox selection
+  const handleSelectSupplier = (supplier: any, isChecked: boolean) => {
     if (isChecked) {
-      setSelectedSupplier(customer);
-      onselect(customer);
+      setSelectedSupplier(supplier);
+      onselect(supplier);
     } else {
       setSelectedSupplier(null);
       onselect({});
     }
   };
 
+  // Function to handle search
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.currentTarget.value.toLowerCase();
+    setSuppliers(
+      SupplierStore.suppliers.filter((supplier) =>
+        supplier.supplier_name.toLowerCase().includes(searchValue) ||
+        supplier.phone_number.toLowerCase().includes(searchValue) ||
+        supplier.bank_name.toLowerCase().includes(searchValue) ||
+        supplier.bank_account_number.toLowerCase().includes(searchValue) ||
+        supplier.id.toString().toLowerCase().includes(searchValue) // Ensure `id` is converted to a string
+      )
+    );
+  };
+
   return (
     <ScrollArea>
-      <Table
-        striped
-        highlightOnHover
-        mt="lg"
-        className={classes.table}
-      >
+      <Group mb={`md`}>
+        <TextInput
+          w={`300px`}
+          leftSection={<MdSearch size={20} />}
+          placeholder="Search suppliers"
+          onChange={handleSearch} // Call the search handler
+        />
+      </Group>
+      <Table striped highlightOnHover mt="lg" className={classes.table}>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>
-              <Checkbox />
-            </Table.Th>
+            <Table.Th>Select</Table.Th>
             <Table.Th>ID</Table.Th>
             <Table.Th>Supplier Name</Table.Th>
             <Table.Th>Phone Number</Table.Th>
@@ -52,7 +70,7 @@ export default observer(function SupplersDataTable({onselect}:props) {
           {suppliers.map((item, index) => (
             <Table.Tr key={index} className={classes.rowSpacing}>
               <Table.Td>
-              <Checkbox
+                <Checkbox
                   checked={selectedSupplier?.id === item.id}
                   onChange={(event) =>
                     handleSelectSupplier(item, event.currentTarget.checked)

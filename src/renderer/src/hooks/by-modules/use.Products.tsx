@@ -159,6 +159,19 @@ export function useProducts() {
       return false;
     }
   }
+  async function ReloadProducts() {
+    setSubmiting(true);
+    try {
+      await products.loadProducts()
+      ProductStore.loadStores()
+      ProductStore.loadStockReports()
+      setSubmiting(false);
+      return true;
+    } catch (error) {
+      setSubmiting(false);
+      return false;
+    }
+  }
 
   return {
     products_form,
@@ -167,6 +180,7 @@ export function useProducts() {
     saveProduct,
     deleteProduct,
     updateProduct,
+    ReloadProducts,
     submiting
   }
 }

@@ -484,9 +484,11 @@ export default function ViewPurchase() {
 
     return (
         <AppPageWrapper title="View Purchase" right={<UserButton />}>
-            <ActionIcon size={`xl`} mb={`md`} onClick={() => navigate("/expenses")}>
-                <MdArrowBack size={30} />
-            </ActionIcon>
+            <Group mb={`sm`}>
+                <ActionIcon size={`lg`} radius={`xl`} variant="subtle" bg={`inherit`} c={`gray`} onClick={()=>navigate("/purchase")} bd={`2px solid`}>
+                    <MdArrowBack size={40} fontWeight={600} />
+                </ActionIcon>
+            </Group>
             <Stack id="printable-area" w={`100%`} p={`lg`} bg={`white`} style={{ borderRadius: "10px" }}>
                 <Header />
                 <OrderDetails />

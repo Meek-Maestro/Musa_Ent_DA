@@ -50,7 +50,7 @@ export default observer(function PurchaseDataTable({ onselect, filterText }: pro
             <Table.Th>Order date</Table.Th>
             <Table.Th>Arrival Date</Table.Th>
             <Table.Th>Supplier</Table.Th>
-            <Table.Th>Unit Price</Table.Th>
+            <Table.Th>Total Price</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -63,10 +63,10 @@ export default observer(function PurchaseDataTable({ onselect, filterText }: pro
                 />
               </Table.Td>
               <Table.Td>{item?.id}</Table.Td>
-              <Table.Td>{item?.purchase_date}</Table.Td>
-              <Table.Td>{item?.arrival_date}</Table.Td>
+              <Table.Td>{item?.purchase_date.slice(0, 10)}</Table.Td>
+              <Table.Td>{item?.arrival_date.slice(0, 10)}</Table.Td>
               <Table.Td>{item?.supplier?.supplier_name}</Table.Td>
-              <Table.Td>{item?.total}</Table.Td>
+              <Table.Td>{item?.purchase_items_total}</Table.Td>
               <Table.Td>
                 <Button onClick={() => navigate(`/view-purchase/${item.id}`, {
                   state: item?.id

@@ -14,6 +14,8 @@ interface IPurchaseItem {
 }
 
 interface Ipurchase {
+  damage_items_total: any;
+  purchase_items_total: any;
   id?: string;
   purchase_items: IPurchaseItem[];
   damage_items?: any[];

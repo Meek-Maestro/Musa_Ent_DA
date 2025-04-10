@@ -93,14 +93,18 @@ export default function EditPurchase() {
   useEffect(() => {
     purchase_form.setFieldValue("purchase_items", items);
     purchase_form.setFieldValue("damage_items", damagedItems || []);
+    purchase_form.setFieldValue("purchase_items_total", items.reduce((acc, item) => acc + item.total, 0))
+    purchase_form.setFieldValue("damage_items_total", damagedItems.reduce((acc, item) => acc + item.total, 0))
   }, [items, damagedItems]);
 
   return (
     <>
       <AppPageWrapper title="Edit Purchase" right={<UserButton />}>
-        <ActionIcon size={`xl`} mb={`md`} onClick={() => navigate("/purchase")}>
-          <MdArrowBack size={30} />
-        </ActionIcon>
+        <Group mb={`sm`}>
+          <ActionIcon size={`lg`} radius={`xl`} variant="subtle" bg={`inherit`} c={`gray`} onClick={() => navigate("/purchase")} bd={`2px solid`}>
+            <MdArrowBack size={40} fontWeight={600} />
+          </ActionIcon>
+        </Group>
         <form
           onSubmit={purchase_form.onSubmit(async () => {
             const formData = new FormData();

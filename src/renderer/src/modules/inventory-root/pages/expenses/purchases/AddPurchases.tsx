@@ -67,13 +67,17 @@ export default function AddPurchase() {
   useEffect(() => {
     purchase_form.setFieldValue("purchase_items", items);
     purchase_form.setFieldValue("damage_items", damagedItems || []);
+    purchase_form.setFieldValue("purchase_items_total", items.reduce((acc, item) => acc + item.total, 0))
+    purchase_form.setFieldValue("damage_items_total", damagedItems.reduce((acc, item) => acc + item.total, 0))
   }, [items, damagedItems]);
 
   return (
     <AppPageWrapper title="New Purchase" right={<UserButton />}>
-      <ActionIcon size={`xl`} mb={`md`} onClick={() => navigate("/purchase")}>
-        <MdArrowBack size={30} />
-      </ActionIcon>
+      <Group mb={`sm`}>
+        <ActionIcon size={`lg`} radius={`xl`} variant="subtle" bg={`inherit`} c={`gray`} onClick={() => navigate("/purchase")} bd={`2px solid`}>
+          <MdArrowBack size={40} fontWeight={600} />
+        </ActionIcon>
+      </Group>
       <form
         onSubmit={purchase_form.onSubmit(async () => {
           const formData = new FormData();
@@ -108,6 +112,8 @@ export default function AddPurchase() {
           formData.append("payment_terms", (purchase_form.values.payment_terms || "").toString());
           formData.append("note_for_supplier", (purchase_form.values.note_for_supplier || "").toString());
           formData.append("status", purchase_form.values.status.toString());
+          formData.append("purchase_items_total", purchase_form.values.purchase_items_total.toString())
+          formData.append("damage_items_total", purchase_form.values.damage_items_total.toString())
           formData.append("purchase_gen_id", purchase_form.values.purchase_gen_id.toString());
           // Append file separately
           if (attachment) {

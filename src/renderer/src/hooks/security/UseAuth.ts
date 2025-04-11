@@ -12,13 +12,22 @@ interface IformInput {
   password: string;
   confirmPassword: string;
   role: string;
+  org_logo?: string;
 }
+// {
+//   "username": "^w$",
+//   "email": "user@example.com",
+//   "org_logo": "http://example.com",
+//   "business_name": "string",
+//   "business_location": "string",
+//   "role": "string",
+//   "password": "string"
+//   }
 interface ILoginInput {
   username: string,
   password: string
 }
-export const access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQwMjE5MTg4LCJpYXQiOjE3NDAxMzI3ODgsImp0aSI6IjRhZDZjMmJhYjQyMzQ1NWU5MjE2MWJhNzk2NWIzODY0IiwidXNlcl9pZCI6MTJ9.JYRHCL_0B9s1GRu7wOC8CurcTYMHgOX3mI5FVkBXbLo"
-const refresh_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MDIxOTE4OCwiaWF0IjoxNzQwMTMyNzg4LCJqdGkiOiI5NWVjNTIyZGY0M2Y0MDk4OTkwMTYxMWExZGVjYTFmNyIsInVzZXJfaWQiOjEyfQ.Xv_Tm16Tc3jkRWhtPX-YqZ2fnF9s_zpfsgKxOdr3fNU"
+
 export function useAuth() {
   const [submiting, setSubmiting] = useState<boolean>(false);
 
@@ -30,11 +39,11 @@ export function useAuth() {
       username: "",
       password: "",
       confirmPassword: "",
-      role: "admin",
+      role: "MANAGER",
     },
     validate: {
       email: (value) => (value ? null : "Email is required"),
-      business_name: (value) => (value ? null : "Business name is required"),
+      business_name: (value) => (value ? null: "Business name is required"),
       business_location: (value) => (value ? null : "Business Location is required"),
       password: (value) => (value ? null : "Password field is required"),
       confirmPassword: (value, values) => (value === values.password ? null : "Passwords do not match"),
@@ -58,6 +67,7 @@ export function useAuth() {
     try {
       const res = await api.post("api/v1/register-organization/", formInput);
       const data = res.data;
+      signupForm.reset()
       console.log(data);
       setSubmiting(false);
       return true;

@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: myapp
+productName: NewAgeIMS
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: myapp
+  executableName: NewAgeIMS
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

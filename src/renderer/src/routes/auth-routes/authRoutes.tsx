@@ -1,12 +1,13 @@
 import { Box, LoadingOverlay } from '@mantine/core';
-import { Routes, Route, HashRouter, MemoryRouter, } from 'react-router-dom';
+import { Routes, Route, HashRouter } from 'react-router-dom';
 import { Suspense } from 'react';
 import { observer } from 'mobx-react';
 import authroutes from "../../modules/auth-module/pages/authRootRoute"
+import { settingsRespository } from '@renderer/store/dexi/user.settings';
 // const modals = {};
 
 export const AppAuthRoutes = observer(() => {
-
+  // settingsRespository.clearBaseUrl()
   return (
     <Box>
       <HashRouter basename="/">

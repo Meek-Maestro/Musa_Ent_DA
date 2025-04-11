@@ -25,7 +25,7 @@ class EnvironmentLoader {
 
   async loadBusinessResources() {
     showNotification({
-      title: "Musa Enterprise",
+      title: "New Age IMS",
       message: "Loading Resources in the background",
       color: "green",
       position: "top-center",
@@ -62,7 +62,7 @@ class EnvironmentLoader {
       reportsLoader.loadExpenses()
     ])
       .then(() => showNotification({
-        title: "Musa Enterprise",
+        title: "New Age IMS",
         message: "Resources Loaded successfully",
         color: "green",
         position: "top-center",

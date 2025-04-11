@@ -13,7 +13,7 @@ let splashWindow: BrowserWindow | null = null;
 
 function createSplashScreen() {
   const splashPath = is.dev
-    ? path.resolve(__dirname, "../../src/main/splash.html") // Development path
+    ? path.resolve(__dirname, "../../src/splash.html") // Development path
     : join(__dirname, "splash.html"); // Production path
 
   splashWindow = new BrowserWindow({

@@ -5,6 +5,7 @@ import { TiTickOutline } from "react-icons/ti";
 import { MdClose } from "react-icons/md";
 import { settingsRespository } from "@renderer/store/dexi/user.settings";
 
+
 async function initializeAPI() {
     const baseURL = (await settingsRespository.getBaseURL()) || "http://localhost:3000"; // Default baseURL if not set
     console.log(baseURL)

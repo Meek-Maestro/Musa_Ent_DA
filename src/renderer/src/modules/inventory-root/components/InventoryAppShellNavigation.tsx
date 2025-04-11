@@ -18,8 +18,8 @@ export const InverntoryAppShellNavigation = observer(() => {
                     }}
                 />
                 <Stack gap={0}>
-                    <Text fw={`bold`} c={`white`} size="md">Musa Yaro</Text>
-                    <Text c={`white`} size="sm">General Merchandise</Text>
+                    <Text fw={`bold`} c={`white`} size="md"></Text>
+                    <Text c={`white`} size="sm"></Text>
                 </Stack>
             </Group>}
             />

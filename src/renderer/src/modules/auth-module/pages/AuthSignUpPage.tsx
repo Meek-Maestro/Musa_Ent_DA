@@ -42,6 +42,7 @@ const SignUpPage = observer(() => {
           <Title order={1} fw={700} c={`white`}>
             Hello There!
           </Title>
+
           <TextInput styles={{
             input: {
               paddingLeft: "40px",
@@ -53,6 +54,7 @@ const SignUpPage = observer(() => {
             }
             w={{ md: "50%", base: "90%" }}
             label="Business Name"
+            maxLength={25}
           />
           <TextInput
             styles={{
@@ -94,9 +96,9 @@ const SignUpPage = observer(() => {
               input: {
                 paddingLeft: `40px`
               },
-             
+
             }}
-           
+
             leftSection={<MdPassword size={30} style={{ marginLeft: 10 }} />}
             label="Password"
           />
@@ -107,7 +109,7 @@ const SignUpPage = observer(() => {
             styles={{
               input: {
                 paddingLeft: "40px",
-              }  
+              }
             }}
             leftSection={
               <MdPassword size={30} style={{ marginLeft: 10 }} />

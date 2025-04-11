@@ -1,5 +1,5 @@
 {
-  "name": "musa-enterprise",
+  "name": "NewAgeIMS",
   "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
@@ -82,7 +82,7 @@
   },
   "build": {
     "appId": "com.electron.app",
-    "productName": "myapp",
+    "productName": "NewAgeIMS",
     "directories": {
       "buildResources": "build"
     },
@@ -95,7 +95,7 @@
       "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
     ],
     "win": {
-      "executableName": "myapp"
+      "executableName": "NewAgeIMS"
     },
     "nsis": {
       "artifactName": "${name}-${version}-setup.${ext}",
